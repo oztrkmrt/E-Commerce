@@ -1,6 +1,5 @@
-import Footer from "./layout/Footer"
-import Header from "./layout/Header"
-import PageContent from "./layout/PageContent"
+import { Button } from "./components/ui/button"
+
 
 
 function App() {
@@ -8,9 +7,7 @@ function App() {
 
   return (
     <>
-      <Header />
-      <PageContent />
-      <Footer />
+      <Button>Hello Shady Boy</Button>
     </>
   )
 }
