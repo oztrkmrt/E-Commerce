@@ -56,10 +56,10 @@ const HeroCarousel = ({ autoSlide = false,
                     <img className="object-center h-full w-full object-cover" key={index} src={slide.url} />
                 ))}
             </div>
-            <div className="absolute inset-0 flex flex-col items-center justify-center px-24 gap-10">
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-24 gap-10 text-center">
                 <h5 className="text-[#FFFFFF] font-bold">SUMMER 2024</h5>
                 <h1 className="text-[#FFFFFF] text-4xl">NEW COLLECTION</h1>
-                <h4 className="text-[#FAFAFA] ">We know how large objects
+                <h4 className="text-[#FAFAFA] px-4">We know how large objects
                     will act, but things on a
                     small scale.</h4>
                 <button className="bg-[#2DC071] px-7 py-3 rounded mt-10 text-white">SHOP NOW</button>
