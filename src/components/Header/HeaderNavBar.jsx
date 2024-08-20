@@ -14,4 +14,4 @@ const HeaderNavBar = () => {
     )
 }
 
-export default HeaderNavBar
+export default HeaderNavBar;
