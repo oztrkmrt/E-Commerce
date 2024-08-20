@@ -1,5 +1,6 @@
-import { Button } from "./components/ui/button"
-
+import Footer from "./layout/Footer"
+import Header from "./layout/Header"
+import PageContent from "./layout/PageContent"
 
 
 function App() {
@@ -7,7 +8,9 @@ function App() {
 
   return (
     <>
-      <Button>Hello Shady Boy</Button>
+      <Header />
+      <PageContent />
+      <Footer />
     </>
   )
 }
