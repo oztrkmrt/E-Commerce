@@ -1,6 +1,6 @@
 const EditorsPick = () => {
     return (
-        <div>
+        <div className="bg-[#FAFAFA] py-20">
             <div className="flex flex-col text-center items-center px-10 mt-14 gap-2">
                 <h2 className="font-bold">EDITOR'S PICK</h2>
                 <p className="px-20 text-[#737373] ">

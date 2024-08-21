@@ -1,9 +1,10 @@
-import EditorsPick from "@/components/Home/EditorsPick";
+
+import HomePage from "@/pages/HomePage";
 
 const PageContent = () => {
     return (
         <div>
-            <EditorsPick />
+            <HomePage />
         </div>
     );
 };
