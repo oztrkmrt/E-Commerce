@@ -43,9 +43,33 @@ const Footer = () => {
                     <p className='font-medium text-[#737373]'>Customers</p>
                     <p className='font-medium text-[#737373]'>API</p>
                 </div>
+                <div className='flex flex-col gap-4 my-8'>
+                    <h5 className='font-bold text-2xl text-[#252B42]'>Get In Touch</h5>
+                    <form className="my-4 flex">
+                        <input
+                            type="text"
+                            placeholder="Your Email"
+                            className="px-6 py-3 bg-[#F9F9F9] border-2 rounded-l-md focus:outline-none font-base text-[#737373]"
+                        />
+                        <button
+                            type="submit"
+                            className="px-6 py-3 bg-[#23A6F0] text-white rounded-r-md font-bold"
+                        >
+                            Subscribe
+                        </button>
+                    </form>
+                    <p className="font-base text-sm text-[#737373] font-normal">
+                        Lore imp sum dolor Amit
+                    </p>
+                </div>
 
             </div>
-            <div></div>
+            <div className='text-center bg-[#FAFAFA] py-10'>
+                <p className='text-[#737373] font-medium'>
+                    Made With Love By <br />
+                    Finland All Right Reserved
+                </p>
+            </div>
         </div>
     );
 };
