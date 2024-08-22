@@ -21,6 +21,7 @@ const EditorsPick = () => {
                         WOMEN
                     </button>
                 </div>
+
                 <div className="relative w-3/4 h-[300px]">
                     <img src="/images/editors-pick3.jpg" alt="" className="w-full h-full object-cover" />
                     <button className="absolute bottom-6 left-6 bg-white text-[#252B42] px-8 py-3 font-bold">
@@ -33,6 +34,7 @@ const EditorsPick = () => {
                         KIDS
                     </button>
                 </div>
+
             </div>
         </div>
     )

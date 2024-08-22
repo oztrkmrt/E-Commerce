@@ -1,6 +1,6 @@
 import BestsellerProducts from "@/components/Home/BestsellerProducts";
 import EditorsPick from "@/components/Home/EditorsPick";
-import FeaturedProducts from "@/components/Home/FeaturedProducts";
+import FeaturedPosts from "@/components/Home/FeaturedPosts";
 import HomeCarousel from "@/components/Home/HomeCarousel";
 import NeuralPart from "@/components/Home/NeuralPart";
 
@@ -11,7 +11,7 @@ const HomePage = () => {
             <BestsellerProducts />
             <HomeCarousel />
             <NeuralPart />
-            <FeaturedProducts />
+            <FeaturedPosts />
         </div>
     );
 };

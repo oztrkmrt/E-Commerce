@@ -3,9 +3,9 @@ import { faFacebook, faInstagram, faXTwitter } from '@fortawesome/free-brands-sv
 
 const Footer = () => {
     return (
-        <div className=''>
+        <div className='md:px-20 md:flex md:flex-col'>
             <div className='bg-[#FAFAFA]'>
-                <div className='mx-10 py-10 flex flex-col gap-6' >
+                <div className='mx-10 py-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between' >
                     <h3 className='font-bold text-3xl text-[#252B42]'>Brand</h3>
                     <div className='flex gap-2'>
                         <FontAwesomeIcon icon={faFacebook} style={{ color: "#74C0FC", }} className='text-xl' />
@@ -14,7 +14,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className='mx-10 mt-6 flex flex-col gap-2'>
+            <div className='mx-10 mt-6 flex flex-col gap-2 md:flex-row md: justify-between'>
                 <div className='flex flex-col gap-4 my-8'>
                     <h5 className='font-bold text-2xl text-[#252B42]'>Company Info</h5>
                     <p className='font-medium text-[#737373]'>About Us</p>
@@ -64,9 +64,9 @@ const Footer = () => {
                 </div>
 
             </div>
-            <div className='text-center bg-[#FAFAFA] py-10'>
+            <div className='text-center bg-[#FAFAFA] py-10 md:text-start md:px-10'>
                 <p className='text-[#737373] font-medium'>
-                    Made With Love By <br />
+                    Made With Love By <br className='md:hidden' />
                     Finland All Right Reserved
                 </p>
             </div>
