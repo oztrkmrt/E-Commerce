@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
-import { Link } from 'react-router-dom/'
+import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useState } from 'react'
 
@@ -25,7 +25,7 @@ const HeaderMenuItem = () => {
                     {isOpen && (
                         <div className='bg-white absolute flex top-10 pt-4 z-50 p-10 gap-20 hidden md:flex'>
                             <div className='flex flex-col gap-4 mt-4'>
-                                <p className='cursor-pointer text-[#252B42] mb-8 '>Kadın</p>
+                                <p className='cursor-pointer text-[#252B42] mb-8' to={"/shop"}>Kadın</p>
                                 <Link>View All</Link>
                                 <Link>Bags</Link>
                                 <Link>Belts</Link>

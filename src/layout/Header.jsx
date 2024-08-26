@@ -1,7 +1,6 @@
 import HeaderMenuItem from "@/components/Header/HeaderMenuItem";
 import HeaderNavBar from "@/components/Header/HeaderNavBar";
 import HeaderSocial from "@/components/Header/HeaderSocial";
-import HeroCarousel from "@/components/Header/HeroCarousel";
 
 const Header = () => {
     return (
@@ -11,7 +10,7 @@ const Header = () => {
                 <HeaderNavBar />
                 <HeaderMenuItem />
             </div>
-            <HeroCarousel />
+
         </div>
     );
 };

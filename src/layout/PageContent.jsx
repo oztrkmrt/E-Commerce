@@ -1,14 +1,14 @@
 
 import HomePage from "@/pages/HomePage";
 import ShopPage from "@/pages/ShopPage";
-import { Route, Switch } from "react-router-dom/cjs/react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 const PageContent = () => {
     return (
         <div>
             <Switch>
-                <Route path="/" exact component={HomePage} />
-                <Route path="/shop" component={ShopPage} />
+                <Route path="/" exact> <HomePage /> </Route>
+                <Route path="/shop"> <ShopPage /> </Route>
             </Switch>
         </div>
     );
