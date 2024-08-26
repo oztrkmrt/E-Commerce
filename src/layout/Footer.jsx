@@ -1,12 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faXTwitter } from '@fortawesome/free-brands-svg-icons'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Footer = () => {
+
+    const history = useHistory()
+
     return (
         <div className='md:px-20 md:flex md:flex-col'>
             <div className='bg-[#FAFAFA]'>
                 <div className='mx-10 py-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between' >
-                    <h3 className='font-bold text-3xl text-[#252B42]'>Brand</h3>
+                    <h3 className='font-bold text-3xl text-[#252B42] cursor-pointer' onClick={() => history.push("/")} >Brand</h3>
                     <div className='flex gap-2'>
                         <FontAwesomeIcon icon={faFacebook} style={{ color: "#74C0FC", }} className='text-xl' />
                         <FontAwesomeIcon icon={faInstagram} style={{ color: "#74C0FC", }} className='text-xl' />
