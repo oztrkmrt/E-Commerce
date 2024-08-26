@@ -14,7 +14,7 @@ const HeaderMenuItem = () => {
 
         <div className='flex flex-col justify-between items-center md:flex-row md:w-full'>
             <div className='flex flex-col text-3xl pb-20 items-center md:flex-row md:py-0 md:gap-6 md:text-xl md:font-medium'>
-                <Link className="py-4 text-[#737373]">Home</Link>
+                <Link to={"/"} className="py-4 text-[#737373]">Home</Link>
                 <div className='flex items-center text-[#737373] cursor-pointer relative' onClick={() => setIsOpen((prev) => !prev)}>
                     <Link className="py-4 ">Shop</Link>
                     {!isOpen ? (

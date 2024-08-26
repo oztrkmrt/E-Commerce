@@ -48,8 +48,8 @@ const BestsellerProducts = () => {
             </div>
             <div className="flex flex-col items-center justify-center gap-10 mt-14 mb-8 md:flex-row md:gap-2">
                 {products.map((product, index) => (
-                    <div className="w-3/4 mb-6 ">
-                        <img key={index} src={product.url} alt="" className="w-full object-cover md:w-2/4 mx-auto lg:w-3/4" />
+                    <div className="w-3/4 mb-6 " key={index}>
+                        <img src={product.url} alt="" className="w-full object-cover md:w-2/4 mx-auto lg:w-3/4" />
                         <div className="flex flex-col text-center items-center px-10 mt-4 gap-4">
                             <h5 className="text-[#252B42] font-bold">
                                 Graphic Design
@@ -73,8 +73,8 @@ const BestsellerProducts = () => {
             </div>
             <div className="flex flex-col items-center justify-center gap-10 mt-14 mb-8 md:flex-row md:gap-2">
                 {products2.map((product, index) => (
-                    <div className="w-3/4 mb-6">
-                        <img key={index} src={product.url} alt="" className="w-full object-cover md:w-2/4 mx-auto lg:w-3/4" />
+                    <div className="w-3/4 mb-6" key={index}>
+                        <img src={product.url} alt="" className="w-full object-cover md:w-2/4 mx-auto lg:w-3/4" />
                         <div className="flex flex-col text-center items-center px-10 mt-4 gap-4">
                             <h5 className="text-[#252B42] font-bold">
                                 Graphic Design
