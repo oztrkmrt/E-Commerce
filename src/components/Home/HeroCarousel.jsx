@@ -1,7 +1,10 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const HeroCarousel = ({ autoSlide = false, autoSlideInterval = 3000 }) => {
+
+    const history = useHistory();
 
     const slides = [
         { url: "/images/product-slide1.jpg" },
@@ -43,7 +46,8 @@ const HeroCarousel = ({ autoSlide = false, autoSlideInterval = 3000 }) => {
                 <h4 className="text-[#FAFAFA] px-4 md:px-0">
                     We know how large objects will act, but things on a small scale.
                 </h4>
-                <button className="bg-[#2DC071] px-5 py-2 sm:px-7 sm:py-3 rounded mt-4 md:mt-10 text-white text-sm sm:text-base">SHOP NOW</button>
+                <button className="bg-[#2DC071] px-5 py-2 sm:px-7 sm:py-3 rounded mt-4 md:mt-10 text-white text-sm sm:text-base cursor-pointer"
+                    onClick={() => history.push("/shop")} >SHOP NOW</button>
             </div>
             <div className="absolute inset-0 flex items-center justify-between p-4">
                 <button onClick={prev} className="p-1 rounded-full text-white">

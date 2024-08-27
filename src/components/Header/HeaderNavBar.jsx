@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faCartShopping, faBars } from '@fortawesome/free-solid-svg-icons'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom/'
+import { useHistory } from 'react-router-dom'
 
 
 const HeaderNavBar = () => {
