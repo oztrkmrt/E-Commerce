@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const ShopClients = () => {
     return (
         <div className="bg-[#FAFAFA] py-16">
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 md:flex-row md:justify-between md:px-20">
                 <FontAwesomeIcon icon={faHooli} className="text-6xl text-[#737373]" />
                 <FontAwesomeIcon icon={faLyft} className="text-6xl text-[#737373]" />
                 <FontAwesomeIcon icon={faPiedPiperHat} className="text-6xl text-[#737373]" />

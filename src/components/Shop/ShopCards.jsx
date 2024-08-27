@@ -11,7 +11,7 @@ const ShopCards = () => {
     ];
 
     return (
-        <div className="flex flex-col gap-4 py-6 px-10 bg-[#FAFAFA]">
+        <div className="flex flex-col gap-4 py-6 px-10 bg-[#FAFAFA] md:flex-row md:px-20">
             {images.map((image, index) => (
                 <div key={index} className="relative">
                     <img
