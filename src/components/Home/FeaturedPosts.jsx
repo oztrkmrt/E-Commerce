@@ -28,8 +28,8 @@ const FeaturedPosts = () => {
             <div className='flex flex-col md:flex-row md:px-20'>
                 {
                     products.map((product, index) => (
-                        <div className="mx-10 my-16 flex flex-col justify-center border border-slate-200">
-                            <img className="object-cover w-full h-[300px]" key={index} src={product.url} />
+                        <div className="mx-10 my-16 flex flex-col justify-center border border-slate-200" key={index}>
+                            <img className="object-cover w-full h-[300px]" src={product.url} />
                             <div className="mx-7 my-6 flex flex-col gap-4">
                                 <div className="flex gap-6 justify-start font-medium">
                                     <span className="text-[#8EC2F2] ">Google</span>
