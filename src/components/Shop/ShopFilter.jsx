@@ -8,10 +8,10 @@ const ShopFilter = () => {
                 <p className="text-[#737373] text-xl font-medium">Showing all results</p>
                 <div className="flex items-center gap-4">
                     <p className="text-[#737373] text-xl font-medium">Views :</p>
-                    <div className="px-4 py-3 border-2 border-[#ECECEC] rounded-md">
+                    <div className="px-4 py-3 border-2 border-[#ECECEC] rounded-md cursor-pointer">
                         <FontAwesomeIcon icon={faTableCellsLarge} size="xl" />
                     </div>
-                    <div className="px-4 py-3 border-2 border-[#ECECEC] rounded-md">
+                    <div className="px-4 py-3 border-2 border-[#ECECEC] rounded-md cursor-pointer">
                         <FontAwesomeIcon icon={faList} size="xl" />
                     </div>
                 </div>
