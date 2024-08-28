@@ -2,8 +2,8 @@ import SocialMediaIcons from "../SocialMedia/SocialMediIcons";
 
 const ContactHeader = () => {
     return (
-        <div className="p-20 flex flex-col gap-10">
-            <div className="flex flex-col gap-10 items-center">
+        <div className="p-20 flex flex-col gap-10 md:flex-row">
+            <div className="flex flex-col gap-10 items-center md:pt-20">
                 <h5 className="text-[#252B42] font-bold text-lg">CONTACT US</h5>
                 <h1 className="text-[#252B42] font-bold text-4xl text-center">Get in touch today!</h1>
                 <h4 className="text-[#737373] text-xl px-2 text-center font-medium">We know how large
