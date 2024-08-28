@@ -21,7 +21,7 @@ const ContactHeader = () => {
                 <div class="absolute top-5 left-2 bg-[#FFE9EA] w-3 h-3 md:top-10 md:left-5 md:w-5 md:h-5 rounded-full z-10"></div>
                 <div class="absolute top-10 right-5 bg-[#977DF4] w-2 h-2 md:top-20 md:right-10 md:w-3 md:h-3 rounded-full z-10"></div>
                 <div class="absolute bottom-8 left-12 bg-[#977DF4] w-3 h-3 md:bottom-16 md:left-24 md:w-4 md:h-4 rounded-full z-10"></div>
-                <img src="/images/contact-image.png" alt="" class="relative z-20 max-w-full" />
+                <img src="/images/winter-cloth.png" alt="" class="relative z-20 max-w-full" />
             </div>
         </div>
     )
