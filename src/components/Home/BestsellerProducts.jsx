@@ -19,17 +19,17 @@ const BestsellerProducts = () => {
 
     const products2 = [
         {
-            url: "/images/bestseller-product5.jpg",
+            url: "/images/bestseller-product1.jpg",
         },
         {
-            url: "/images/bestseller-product6.jpg",
+            url: "/images/bestseller-product2.jpg",
         },
         {
-            url: "/images/bestseller-product7.jpg",
+            url: "/images/bestseller-product3.jpg",
         },
 
         {
-            url: "/images/bestseller-product8.jpg",
+            url: "/images/bestseller-product4.jpg",
         },
     ];
 
