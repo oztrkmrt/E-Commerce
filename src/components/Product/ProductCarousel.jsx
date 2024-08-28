@@ -46,8 +46,8 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000 }) => {
                 </div>
             </div>
             <div className="flex gap-4">
-                {products.map((product) => (
-                    <img className="w-[100px] h-[75px] object-cover" src={product.url} alt="" />
+                {products.map((product, index) => (
+                    <img key={index} className="w-[100px] h-[75px] object-cover" src={product.url} alt="" />
                 ))}
             </div>
         </div>
