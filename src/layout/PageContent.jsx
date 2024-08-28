@@ -1,4 +1,5 @@
 
+import ContactPage from "@/pages/ContactPage";
 import HomePage from "@/pages/HomePage";
 import ProductPage from "@/pages/ProductPage";
 import ShopPage from "@/pages/ShopPage";
@@ -11,6 +12,7 @@ const PageContent = () => {
                 <Route path="/" exact> <HomePage /> </Route>
                 <Route path="/shop"> <ShopPage /> </Route>
                 <Route path="/product"> <ProductPage /> </Route>
+                <Route path="/contact"> <ContactPage /> </Route>
             </Switch>
         </div>
     );
