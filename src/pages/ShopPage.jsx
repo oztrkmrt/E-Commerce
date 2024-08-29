@@ -1,6 +1,6 @@
 
+import ClientIcons from "@/components/Icons/ClientIcons";
 import ShopCards from "@/components/Shop/ShopCards";
-import ShopClients from "@/components/Shop/ShopClients";
 import ShopFilter from "@/components/Shop/ShopFilter";
 import ShopPagination from "@/components/Shop/ShopPagination";
 import ShopProductCards from "@/components/Shop/ShopProductCards";
@@ -15,7 +15,7 @@ const ShopPage = () => {
             <ShopFilter />
             <ShopProductCards />
             <ShopPagination />
-            <ShopClients />
+            <ClientIcons />
         </div>
     );
 };

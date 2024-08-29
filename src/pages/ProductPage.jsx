@@ -1,9 +1,9 @@
 
+import ClientIcons from "@/components/Icons/ClientIcons";
 import ProductBestseller from "@/components/Product/ProductBestseller";
 import ProductCarousel from "@/components/Product/ProductCarousel";
 import ProductDescription from "@/components/Product/ProductDescription";
 import ProductDetails from "@/components/Product/ProductDetails";
-import ShopClients from "@/components/Shop/ShopClients";
 import ShopTitle from "@/components/Shop/ShopTitle";
 
 
@@ -17,7 +17,7 @@ const ProductPage = () => {
             </div>
             <ProductDescription />
             <ProductBestseller />
-            <ShopClients />
+            <ClientIcons />
         </div>
     );
 };

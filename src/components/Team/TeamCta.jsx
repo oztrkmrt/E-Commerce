@@ -1,4 +1,4 @@
-import SocialMediaIcons from "../SocialMedia/SocialMediIcons";
+import SocialMediaIcons from "../Icons/SocialMediIcons";
 
 const TeamCta = () => {
     return (

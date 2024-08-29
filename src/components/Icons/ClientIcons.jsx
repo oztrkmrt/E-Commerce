@@ -1,7 +1,7 @@
 import { faAws, faHooli, faLyft, faPiedPiperHat, faRedditAlien, faStripe } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ShopClients = () => {
+const ClientIcons = () => {
     return (
         <div className="bg-[#FAFAFA] py-16">
             <div className="flex flex-col gap-6 md:flex-row md:justify-between md:px-20">
@@ -16,4 +16,4 @@ const ShopClients = () => {
     )
 }
 
-export default ShopClients;
+export default ClientIcons;
