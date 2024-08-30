@@ -52,7 +52,9 @@ const HeaderMenuItem = () => {
             <div className='hidden md:flex text-xl gap-8'>
                 <div className='flex items-center gap-2'>
                     <FontAwesomeIcon icon={faUser} style={{ color: "#23A6F0", }} />
-                    <span className='text-[#23A6F0] font-medium'>Login / Register</span>
+                    <Link className='text-[#23A6F0] font-medium hover:underline'>Login</Link>
+                    <span className='text-[#23A6F0] font-medium'>/</span>
+                    <Link to="/signup" className='text-[#23A6F0] font-medium hover:underline'>Register</Link>
                 </div>
                 <div className='flex gap-6 items-center'>
                     <FontAwesomeIcon href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0", }} />
