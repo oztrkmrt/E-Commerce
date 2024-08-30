@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useState } from 'react'
 
@@ -9,20 +9,21 @@ import React, { useState } from 'react'
 const HeaderMenuItem = () => {
 
     const [isOpen, setIsOpen] = useState(false)
-    const history = useHistory();
 
     return (
 
         <div className='flex flex-col justify-between items-center md:flex-row md:w-full'>
             <div className='flex flex-col text-3xl pb-20 items-center md:flex-row md:py-0 md:gap-6 md:text-xl md:font-medium'>
                 <Link to={"/"} className="py-4 text-[#737373]">Home</Link>
-                <div className='flex items-center text-[#737373] cursor-pointer relative' onClick={() => setIsOpen((prev) => !prev)}>
+                <div className='flex items-center text-[#737373] cursor-pointer relative' >
                     <Link to="/shop" className="py-4 ">Shop</Link>
-                    {!isOpen ? (
-                        <ChevronDown className='hidden md:block' size={20} />
-                    ) : (
-                        <ChevronUp className='hidden md:block' size={20} />
-                    )}
+                    <div onClick={() => setIsOpen((prev) => !prev)}>
+                        {!isOpen ? (
+                            <ChevronDown className='hidden md:block' size={20} />
+                        ) : (
+                            <ChevronUp className='hidden md:block' size={20} />
+                        )}
+                    </div>
                     {isOpen && (
                         <div className='bg-white absolute flex top-10 pt-4 z-50 p-10 gap-20 hidden md:flex'>
                             <div className='flex flex-col gap-4 mt-4'>
