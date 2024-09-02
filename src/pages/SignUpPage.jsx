@@ -1,10 +1,15 @@
 import axiosInstance from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignUpPage = () => {
     const [isStore, setIsStore] = useState(false);
     const [roles, SetRoles] = useState([])
+    const [loading, SetLoading] = useState(false);
+    const history = useHistory();
+
     const {
         register,
         handleSubmit,
@@ -27,11 +32,46 @@ const SignUpPage = () => {
         fetchRoles();
     }, [])
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
+        SetLoading(true);
+        try {
+            const selectedRole = roles.find((role) => role.id === data.role_id)?.name;
+            let formattedData;
+
+            if (selectedRole === "Store") {
+                formattedData = {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    role_id: data.role_id,
+                    store: {
+                        name: data.name,
+                        phone: data.phone,
+                        tax_no: data.tax_no,
+                        bank_account: data.bank_account,
+                    },
+                };
+            } else {
+                formattedData = {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    role_id: data.role_id,
+                };
+            }
+            await axiosInstance.post("/signup", formattedData);
+            SetLoading(false);
+            //toast.success("You need to click link in email to activate your account!");
+            history.push("/")
+        } catch (error) {
+            SetLoading(false);
+            console.error("Error occurred during registration:", error.response);
+            //toast.error("error occurred during registration: ${error.response?.data?.message || error.message}`")
+        }
     };
 
     const selectedRole = watch("role_id");
+
     useEffect(() => {
         setIsStore(selectedRole === "store");
     }, [selectedRole]);
@@ -115,7 +155,7 @@ const SignUpPage = () => {
                                 <input
                                     className="border border-[#E6E6E6] bg-[#F9F9F9] text-[#737373] p-2"
                                     type="text"
-                                    {...register("storeName", {
+                                    {...register("name", {
                                         required: "Store Name is required",
                                         minLength: {
                                             value: 3,
@@ -123,13 +163,13 @@ const SignUpPage = () => {
                                         },
                                     })}
                                 />
-                                {errors.storeName && <p className="text-red-500">{errors.storeName.message}</p>}
+                                {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 
                                 <label className="text-[#252B42]">Store Phone</label>
                                 <input
                                     className="border border-[#E6E6E6] bg-[#F9F9F9] text-[#737373] p-2"
                                     type="tel"
-                                    {...register("storePhone", {
+                                    {...register("phone", {
                                         required: "Store Phone is required",
                                         pattern: {
                                             value: /^\+?(\d{10,12})$/,
@@ -137,13 +177,13 @@ const SignUpPage = () => {
                                         },
                                     })}
                                 />
-                                {errors.storePhone && <p className="text-red-500">{errors.storePhone.message}</p>}
+                                {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
 
                                 <label className="text-[#252B42]">Store Tax ID</label>
                                 <input
                                     className="border border-[#E6E6E6] bg-[#F9F9F9] text-[#737373] p-2"
                                     type="text"
-                                    {...register("storeTaxID", {
+                                    {...register("tax_no", {
                                         required: "Store Tax ID is required",
                                         pattern: {
                                             value: /^T\d{4}V\d{6}$/,
@@ -151,13 +191,13 @@ const SignUpPage = () => {
                                         },
                                     })}
                                 />
-                                {errors.storeTaxID && <p className="text-red-500">{errors.storeTaxID.message}</p>}
+                                {errors.tax_no && <p className="text-red-500">{errors.tax_no.message}</p>}
 
                                 <label className="text-[#252B42]">Store Bank Account</label>
                                 <input
                                     className="border border-[#E6E6E6] bg-[#F9F9F9] text-[#737373] p-2"
                                     type="text"
-                                    {...register("storeBankAccount", {
+                                    {...register("bank_account", {
                                         required: "Store Bank Account is required",
                                         pattern: {
                                             value: /^TR\d{2} \d{4} \d{4} \d{4} \d{4} \d{4} \d{2}$/,
@@ -165,19 +205,18 @@ const SignUpPage = () => {
                                         },
                                     })}
                                 />
-                                {errors.storeBankAccount && (
-                                    <p className="text-red-500">{errors.storeBankAccount.message}</p>
+                                {errors.bank_account && (
+                                    <p className="text-red-500">{errors.bank_account.message}</p>
                                 )}
                             </>
                         )}
 
                         <button
                             type="submit"
-                            className={`mt-4 bg-[#252B42] text-white p-2 rounded ${!isValid ? "opacity-50 cursor-not-allowed" : ""
-                                }`}
-                            disabled={!isValid}
+                            className={`mt-4 bg-[#252B42] text-white p-2 rounded ${!isValid || loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                            disabled={!isValid || loading}
                         >
-                            Sign Up
+                            {loading ? "Submitting..." : "Sign Up"}
                         </button>
                     </div>
                 </form>
