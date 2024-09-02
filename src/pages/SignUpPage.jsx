@@ -2,7 +2,6 @@ import axiosInstance from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const SignUpPage = () => {
     const [isStore, setIsStore] = useState(false);
@@ -61,12 +60,10 @@ const SignUpPage = () => {
             }
             await axiosInstance.post("/signup", formattedData);
             SetLoading(false);
-            //toast.success("You need to click link in email to activate your account!");
             history.push("/")
         } catch (error) {
             SetLoading(false);
-            console.error("Error occurred during registration:", error.response);
-            //toast.error("error occurred during registration: ${error.response?.data?.message || error.message}`")
+            console.error("Error occurred during registration:", error);
         }
     };
 
