@@ -2,11 +2,13 @@ import axiosInstance from "@/services/axiosInstance";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignUpPage = () => {
     const [isStore, setIsStore] = useState(false);
     const [roles, SetRoles] = useState([])
     const [loading, SetLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const history = useHistory();
 
     const {
@@ -33,6 +35,7 @@ const SignUpPage = () => {
 
     const onSubmit = async (data) => {
         SetLoading(true);
+        setErrorMessage("");
         try {
             const selectedRole = roles.find((role) => role.id === data.role_id)?.name;
             let formattedData;
@@ -60,9 +63,12 @@ const SignUpPage = () => {
             }
             await axiosInstance.post("/signup", formattedData);
             SetLoading(false);
-            history.push("/")
+            toast.success("You need to click on the link in the email to activate your account!");
+            history.goBack();
         } catch (error) {
             SetLoading(false);
+            setErrorMessage("An error occurred during registration. Please try again later.");
+            toast.error("An error occurred during registration. Please try again later.");
             console.error("Error occurred during registration:", error);
         }
     };
@@ -213,8 +219,12 @@ const SignUpPage = () => {
                             className={`mt-4 bg-[#252B42] text-white p-2 rounded ${!isValid || loading ? "opacity-50 cursor-not-allowed" : ""}`}
                             disabled={!isValid || loading}
                         >
+                            {loading ? (
+                                <span className="spinner-border animate-spin inline-block w-4 h-4 border-2 rounded-full border-white mr-2"></span>
+                            ) : null}
                             {loading ? "Submitting..." : "Sign Up"}
                         </button>
+                        {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
                     </div>
                 </form>
             </div>

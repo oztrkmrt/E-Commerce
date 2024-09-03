@@ -3,6 +3,7 @@ import { faMagnifyingGlass, faCartShopping, faBars } from '@fortawesome/free-sol
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 const HeaderNavBar = () => {
@@ -20,7 +21,9 @@ const HeaderNavBar = () => {
                         <div className='flex flex-col gap-4 p-4'>
                             <div className='flex items-center gap-4'>
                                 <FontAwesomeIcon icon={faUser} style={{ color: "#23A6F0", }} />
-                                <span className='text-[#23A6F0] font-medium'>Login / Register</span>
+                                <Link to="/login" className='text-[#23A6F0] font-medium'>Login</Link>
+                                <span className='text-[#23A6F0] font-medium'> / </span>
+                                <Link to="/signup" className='text-[#23A6F0] font-medium'>Register</Link>
                             </div>
                             <div className='flex gap-6 items-center'>
                                 <FontAwesomeIcon href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0", }} />

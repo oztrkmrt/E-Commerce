@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import clientReducer from './reducers/clientSlice';
-import productReducer from './reducers/productSlice';
-import shoppingCartReducer from './reducers/shoppingCartSlice';
+import clientReducer from './slices/clientSlice';
+import productReducer from './slices/productSlice';
+import shoppingCartReducer from './slices/shoppingCartSlice';
+import { thunk } from 'redux-thunk';
 
 const store = configureStore({
     reducer: {
@@ -10,7 +11,7 @@ const store = configureStore({
         product: productReducer,
         shoppingCart: shoppingCartReducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger, thunk),
 })
 
 export default store;

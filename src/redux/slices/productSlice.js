@@ -8,7 +8,7 @@ const initialState = {
     offset: 0,
     filter: '',
     fetchState: 'NOT_FETCHED',
-};
+}
 
 const productSlice = createSlice({
     name: 'product',

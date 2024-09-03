@@ -2,6 +2,7 @@
 import AboutUsPage from "@/pages/AboutUsPage";
 import ContactPage from "@/pages/ContactPage";
 import HomePage from "@/pages/HomePage";
+import LoginPage from "@/pages/LoginPage";
 import ProductPage from "@/pages/ProductPage";
 import ShopPage from "@/pages/ShopPage";
 import SignUpPage from "@/pages/SignUpPage";
@@ -19,6 +20,7 @@ const PageContent = () => {
                 <Route path="/team"> <TeamPage /> </Route>
                 <Route path="/about"> <AboutUsPage /> </Route>
                 <Route path="/signup"> <SignUpPage /> </Route>
+                <Route path="/login"> <LoginPage /> </Route>
             </Switch>
         </div>
     );
