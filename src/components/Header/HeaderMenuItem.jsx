@@ -13,6 +13,13 @@ const HeaderMenuItem = () => {
 
     const { user } = useSelector(state => state.client);
 
+    const { categories } = useSelector(state => state.product);
+
+    const maleCategories = categories.filter(category => category.gender === "e");
+    const femaleCategories = categories.filter(category => category.gender === "k");
+
+
+
     useEffect(() => {
         console.log("user info: ", user)
     }, [user])
@@ -34,20 +41,19 @@ const HeaderMenuItem = () => {
                     {isOpen && (
                         <div className='bg-white absolute flex top-10 pt-4 z-50 p-10 gap-20 hidden md:flex'>
                             <div className='flex flex-col gap-4 mt-4'>
-                                <p className='cursor-pointer text-[#252B42] mb-8' to={"/shop"}>Kadın</p>
-                                <Link>View All</Link>
-                                <Link>Bags</Link>
-                                <Link>Belts</Link>
-                                <Link>Cosmetics</Link>
-                                <Link>Bags</Link>
+                                <p className='cursor-pointer text-[#252B42] mb-8' to={`/shop/${femaleCategories}`}>Kadın</p>
+                                {
+                                    femaleCategories.map((category) => (
+                                        <Link key={category.id} to={`/shop/${category.gender}/${category.title}`}>{category.title}</Link>
+                                    ))
+                                }
                             </div>
                             <div className='flex flex-col gap-4 mt-4'>
                                 <p className='cursor-pointer text-[#252B42] mb-8'>Erkek</p>
-                                <Link>View All</Link>
                                 <Link>Bags</Link>
                                 <Link>Belts</Link>
                                 <Link>Cosmetics</Link>
-                                <Link>Bags</Link>
+                                <Link>Hats</Link>
                             </div>
                         </div>
                     )}

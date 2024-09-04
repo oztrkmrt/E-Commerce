@@ -6,11 +6,12 @@ export const fetchRolesThunk = createAsyncThunk(
     'client/fetchRoles',
     async (_, { dispatch, getState }) => {
         const state = getState().client;
-
-        if (state.roles.length > 0) return;
+        if (state.roles.length > 0) {
+            return Promise.resolve();
+        }
 
         try {
-            const response = await axios.get('/api/roles');
+            const response = await axios.get('https://workintech-fe-ecommerce.onrender.com/roles');
             dispatch(setRoles(response.data));
         } catch (error) {
             console.error('Error receiving role information:', error);

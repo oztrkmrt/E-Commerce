@@ -14,7 +14,7 @@ const PageContent = () => {
         <div>
             <Switch>
                 <Route path="/" exact> <HomePage /> </Route>
-                <Route path="/shop/:gender/:category"> <ShopPage /> </Route>
+                <Route path="/shop"> <ShopPage /> </Route>
                 <Route path="/product"> <ProductPage /> </Route>
                 <Route path="/contact"> <ContactPage /> </Route>
                 <Route path="/team"> <TeamPage /> </Route>
