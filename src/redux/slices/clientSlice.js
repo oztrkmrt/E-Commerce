@@ -7,6 +7,7 @@ const initialState = {
     roles: [],
     theme: "",
     language: "",
+    token: null,
 }
 
 
@@ -31,6 +32,9 @@ const clientSlice = createSlice({
         },
         setLanguage(state, action) {
             state.language = action.payload
+        },
+        setToken(state, action) {
+            state.token = action.payload
         }
     }
 })

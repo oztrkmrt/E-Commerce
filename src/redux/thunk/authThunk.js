@@ -1,8 +1,8 @@
-
 import { toast } from "react-toastify";
 import { setUser } from "../slices/clientSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import axiosInstance from "@/services/axiosInstance";
 
 
 export const loginUser = createAsyncThunk(
@@ -25,14 +25,39 @@ export const loginUser = createAsyncThunk(
                     localStorage.setItem("user", JSON.stringify(user));
                 }
 
-                toast.success(`Merhaba, hoşgeldin ${user.name}!`);
+                toast.success(`Welcome ${user.name}!`);
                 return { user, token };
             })
             .catch((error) => {
-                toast.warning("Login failed! Please check your details.");
+                toast.warning("Login failed!");
 
                 return error;
             });
+    }
+);
+
+export const verifyToken = createAsyncThunk(
+    "auth/verifyToken",
+    ({ dispatch }) => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            try {
+                axiosInstance.defaults.headers.common["Authorization"] = token;
+                const response = axiosInstance.get("/verify");
+                const user = response.data;
+                dispatch(setUser(user));
+                if (user.token) {
+                    localStorage.removeItem("token");
+                    localStorage.setItem("token", JSON.stringify(user.token));
+                }
+            }
+            catch (error) {
+                if (error) {
+                    localStorage.removeItem("token");
+                    delete axiosInstance.defaults.headers.common["Authorization"];
+                }
+            }
+        }
     }
 );
 
