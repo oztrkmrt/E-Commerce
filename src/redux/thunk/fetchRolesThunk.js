@@ -7,7 +7,6 @@ export const fetchRolesThunk = createAsyncThunk(
     async (_, { dispatch, getState }) => {
         const state = getState().client;
 
-        // Eğer rol listesi zaten yüklendiyse tekrar yükleme
         if (state.roles.length > 0) return;
 
         try {

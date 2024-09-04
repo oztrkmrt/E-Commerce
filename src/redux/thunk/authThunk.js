@@ -7,8 +7,8 @@ import axiosInstance from "@/services/axiosInstance";
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
-    ({ email, password, rememberMe }, { dispatch }) => {
-        return axios
+    async ({ email, password, rememberMe }, { dispatch }) => {
+        return await axios
             .post("https://workintech-fe-ecommerce.onrender.com/login", {
                 email,
                 password,
