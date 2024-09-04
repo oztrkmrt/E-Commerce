@@ -18,7 +18,7 @@ const ShopFilter = () => {
                 <div className="flex items-center gap-4">
                     <select
                         className="border border-[#DDDDDD] bg-[#F9F9F9] rounded py-4 px-4 text-gray-700 w-full">
-                        <option value="popularity">Popularity</option>
+                        <option value="popularity">Default</option>
                         <option value="price:asc">Price: Low to High</option>
                         <option value="price:desc">Price: High to Low</option>
                         <option value="rating:asc">Rating: Low to High</option>

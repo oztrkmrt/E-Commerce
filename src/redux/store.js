@@ -3,7 +3,6 @@ import logger from 'redux-logger'
 import clientReducer from './slices/clientSlice';
 import productReducer from './slices/productSlice';
 import shoppingCartReducer from './slices/shoppingCartSlice';
-import { thunk } from 'redux-thunk';
 
 const store = configureStore({
     reducer: {
@@ -11,7 +10,7 @@ const store = configureStore({
         product: productReducer,
         shoppingCart: shoppingCartReducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger, thunk),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 })
 
 export default store;

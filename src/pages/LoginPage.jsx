@@ -1,28 +1,28 @@
 import { loginUser } from '@/redux/thunk/authThunk';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const LoginPage = () => {
+    const [rememberMe, setRememberMe] = useState(false);
     const { register, handleSubmit, formState: { errors, isValid } } = useForm({
         mode: 'onBlur',
     });
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const onSubmit = async (data) => {
-        try {
-            const resultAction = await dispatch(loginUser(data.email, data.password, data.rememberMe));
-            if (loginUser.fulfilled.match(resultAction)) {
-                history.push("/"); // Başarılı login'den sonra yönlendirme
-            } else {
-                toast.error("Giriş başarısız oldu. Lütfen tekrar deneyin.");
-            }
-        } catch (error) {
-            console.error("Error occurred during login:", error);
-        }
+    const onSubmit = (data) => {
+        const formData = { ...data, rememberMe };
+        console.log(formData);
+        dispatch(loginUser(formData))
+            .then(() => {
+                history.goBack();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     return (
@@ -57,6 +57,8 @@ const LoginPage = () => {
 
                         <div className="flex items-center gap-2">
                             <input
+                                onClick={() => setRememberMe(!rememberMe)}
+                                id="checkbox"
                                 type="checkbox"
                                 {...register('rememberMe')}
                             />

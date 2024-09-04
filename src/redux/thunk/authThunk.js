@@ -1,30 +1,38 @@
-import axiosInstance from "@/services/axiosInstance";
+
 import { toast } from "react-toastify";
 import { setUser } from "../slices/clientSlice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-export const loginUser = (email, password, rememberMe) => async (dispatch) => {
-    try {
-        const response = await axiosInstance.post('/login', { email, password });
 
-        const { token, user } = response.data;
+export const loginUser = createAsyncThunk(
+    "auth/loginUser",
+    ({ email, password, rememberMe }, { dispatch }) => {
+        return axios
+            .post("https://workintech-fe-ecommerce.onrender.com/login", {
+                email,
+                password,
+            })
+            .then((response) => {
+                const { token, name, email, role_id } = response.data;
 
-        if (token) {
-            // Token'ı localStorage'a kaydet
-            if (rememberMe) {
-                localStorage.setItem('token', token);
-            }
+                const user = { name, email, role_id };
 
-            // Kullanıcıyı Redux store'a kaydet
-            dispatch(setUser(user));
+                dispatch(setUser(user));
 
-            // Kullanıcıyı önceki sayfaya yönlendir veya ana sayfaya
-            window.location.href = document.referrer || '/';
-        } else {
-            throw new Error("Yanıt içinde geçerli bir token bulunamadı.");
-        }
-    } catch (error) {
-        toast.error("Error occurred during login. Please try again.");
-        console.error("Login error:", error);
-        return Promise.reject(error);
+                if (rememberMe) {
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("user", JSON.stringify(user));
+                }
+
+                toast.success(`Merhaba, hoşgeldin ${user.name}!`);
+                return { user, token };
+            })
+            .catch((error) => {
+                toast.warning("Login failed! Please check your details.");
+
+                return error;
+            });
     }
-};
+);
+

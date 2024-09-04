@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    user: {},
+    user: JSON.parse(localStorage.getItem("user")) || {},
     adressList: [],
     creditCards: [],
     roles: [],
@@ -15,7 +15,13 @@ const clientSlice = createSlice({
     initialState,
     reducers: {
         setUser(state, action) {
-            state.user = action.payload
+            const { email, name, password } = action.payload;
+            state.user = {
+                ...state.user,
+                email,
+                name,
+                password,
+            };
         },
         setRoles(state, action) {
             state.roles = action.payload

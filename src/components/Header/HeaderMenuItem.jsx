@@ -3,12 +3,19 @@ import { faMagnifyingGlass, faCartShopping } from '@fortawesome/free-solid-svg-i
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronUp } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 
 const HeaderMenuItem = () => {
 
     const [isOpen, setIsOpen] = useState(false)
+
+    const { user } = useSelector(state => state.client);
+
+    useEffect(() => {
+        console.log("user info: ", user)
+    }, [user])
 
     return (
 
@@ -49,13 +56,22 @@ const HeaderMenuItem = () => {
                 <Link to="/team" className="py-4 text-[#737373]">Team</Link>
                 <Link to="/contact" className="py-4 text-[#737373]">Contact</Link>
             </div>
+
+
             <div className='hidden md:flex text-xl gap-8'>
-                <div className='flex items-center gap-2'>
-                    <FontAwesomeIcon icon={faUser} style={{ color: "#23A6F0", }} />
-                    <Link to="/login" className='text-[#23A6F0] font-medium hover:underline'>Login</Link>
-                    <span className='text-[#23A6F0] font-medium'>/</span>
-                    <Link to="/signup" className='text-[#23A6F0] font-medium hover:underline'>Register</Link>
-                </div>
+                {user && user.name ? (
+                    <div className='flex items-center gap-2'>
+                        <FontAwesomeIcon icon={faUser} style={{ color: "#23A6F0", }} />
+                        <span className='text-[#23A6F0] font-medium'>{user.name}</span>
+                    </div>
+                ) : (
+                    <div className='flex items-center gap-2'>
+                        <FontAwesomeIcon icon={faUser} style={{ color: "#23A6F0", }} />
+                        <Link to="/login" className='text-[#23A6F0] font-medium hover:underline'>Login</Link>
+                        <span className='text-[#23A6F0] font-medium'>/</span>
+                        <Link to="/signup" className='text-[#23A6F0] font-medium hover:underline'>Register</Link>
+                    </div>
+                )}
                 <div className='flex gap-6 items-center'>
                     <FontAwesomeIcon href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0", }} />
                     <FontAwesomeIcon icon={faCartShopping} style={{ color: "#23A6F0", }} />
