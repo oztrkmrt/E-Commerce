@@ -4,12 +4,14 @@ import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCategories } from '@/redux/slices/productSlice'
 
 
 const HeaderMenuItem = () => {
 
     const [isOpen, setIsOpen] = useState(false)
+    const dispatch = useDispatch();
 
     const { user } = useSelector(state => state.client);
 
@@ -21,8 +23,8 @@ const HeaderMenuItem = () => {
 
 
     useEffect(() => {
-        console.log("user info: ", user)
-    }, [user])
+        dispatch(getCategories())
+    }, [dispatch])
 
     return (
 
@@ -41,19 +43,20 @@ const HeaderMenuItem = () => {
                     {isOpen && (
                         <div className='bg-white absolute flex top-10 pt-4 z-50 p-10 gap-20 hidden md:flex'>
                             <div className='flex flex-col gap-4 mt-4'>
-                                <p className='cursor-pointer text-[#252B42] mb-8' to={`/shop/${femaleCategories}`}>Kadın</p>
+                                <p className='cursor-pointer text-[#252B42] mb-8'>Kadın</p>
                                 {
                                     femaleCategories.map((category) => (
-                                        <Link key={category.id} to={`/shop/${category.gender}/${category.title}`}>{category.title}</Link>
+                                        <Link key={category.id} to={`/shop/kadın/${category.title}`}>{category.title}</Link>
                                     ))
                                 }
                             </div>
                             <div className='flex flex-col gap-4 mt-4'>
                                 <p className='cursor-pointer text-[#252B42] mb-8'>Erkek</p>
-                                <Link>Bags</Link>
-                                <Link>Belts</Link>
-                                <Link>Cosmetics</Link>
-                                <Link>Hats</Link>
+                                {
+                                    femaleCategories.map((category) => (
+                                        <Link key={category.id} to={`/shop/erkek/${category.title}`}>{category.title}</Link>
+                                    ))
+                                }
                             </div>
                         </div>
                     )}

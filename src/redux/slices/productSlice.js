@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const initialState = {
     categories: [],
@@ -9,6 +10,12 @@ const initialState = {
     filter: '',
     fetchState: 'NOT_FETCHED',
 }
+
+export const getCategories = createAsyncThunk("category", async () => {
+    const { data } = await axios.get("https://workintech-fe-ecommerce.onrender.com/categories");
+    return data;
+});
+
 
 const productSlice = createSlice({
     name: 'product',
@@ -35,7 +42,20 @@ const productSlice = createSlice({
         setFilter: (state, action) => {
             state.filter = action.payload;
         },
-    },
+    }, extraReducers: (builder) => {
+        builder
+            .addCase(getCategories.pending, (state) => {
+                state.fetchState = "FETCHING";
+            })
+            .addCase(getCategories.fulfilled, (state, action) => {
+                state.categories = action.payload;
+                state.fetchState = "FETCHED";
+            })
+            .addCase(getCategories.rejected, (state) => {
+                state.fetchState = "FAILED";
+            });
+    }
+
 });
 
 export const {
