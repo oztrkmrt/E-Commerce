@@ -6,6 +6,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories } from '@/redux/slices/productSlice'
+import GravatarImage from '@/gravatar/GravatarImage'
 
 
 const HeaderMenuItem = () => {
@@ -72,6 +73,7 @@ const HeaderMenuItem = () => {
                     <div className='flex items-center gap-2'>
                         <FontAwesomeIcon icon={faUser} style={{ color: "#23A6F0", }} />
                         <span className='text-[#23A6F0] font-medium'>{user.name}</span>
+                        <GravatarImage email={user.email} size={25} />
                     </div>
                 ) : (
                     <div className='flex items-center gap-2'>
