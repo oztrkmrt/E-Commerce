@@ -16,6 +16,11 @@ export const getCategories = createAsyncThunk("category", async () => {
     return data;
 });
 
+export const getProducts = createAsyncThunk("product", async () => {
+    const { data } = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products`);
+    return data;
+});
+
 
 const productSlice = createSlice({
     name: 'product',
@@ -52,6 +57,17 @@ const productSlice = createSlice({
                 state.fetchState = "FETCHED";
             })
             .addCase(getCategories.rejected, (state) => {
+                state.fetchState = "FAILED";
+            })
+            .addCase(getProducts.pending, (state) => {
+                state.fetchState = "FETCHING";
+            })
+            .addCase(getProducts.fulfilled, (state, action) => {
+                state.productList = action.payload.products;
+                state.total = action.payload.total;
+                state.fetchState = "FETCHED";
+            })
+            .addCase(getProducts.rejected, (state) => {
                 state.fetchState = "FAILED";
             });
     }

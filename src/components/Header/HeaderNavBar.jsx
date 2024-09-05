@@ -14,10 +14,6 @@ const HeaderNavBar = () => {
 
     const { user } = useSelector(state => state.client);
 
-    useEffect(() => {
-        console.log("user info: ", user)
-    }, [user])
-
     return (
         <div className='flex justify-between'>
             <span className="font-bold text-2xl px-10 py-6 text-[#252B42] cursor-pointer" onClick={() => history.push("/")}>Brand</span>
