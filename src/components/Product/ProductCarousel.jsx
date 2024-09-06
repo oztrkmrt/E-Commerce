@@ -13,6 +13,10 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000 }) => {
     const prev = () => setCurr(curr === 0 ? products.length - 1 : curr - 1);
     const next = () => setCurr(curr === products.length - 1 ? 0 : curr + 1);
 
+    const handleClick = (index) => {
+        setCurr(index);
+    };
+
     useEffect(() => {
         if (!autoSlide) return;
         const slideInterval = setInterval(next, autoSlideInterval);
@@ -47,7 +51,8 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000 }) => {
             </div>
             <div className="flex gap-4">
                 {products.map((product, index) => (
-                    <img key={index} className="w-[100px] h-[75px] object-cover" src={product.url} alt="" />
+                    <img key={index} className={`w-[100px] h-[75px] object-cover cursor-pointer ${index !== curr ? "opacity-50" : "opacity-100"
+                        }`} src={product.url} alt="" onClick={() => handleClick(index)} />
                 ))}
             </div>
         </div>

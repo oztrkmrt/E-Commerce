@@ -16,11 +16,22 @@ export const getCategories = createAsyncThunk("category", async () => {
     return data;
 });
 
-export const getProducts = createAsyncThunk("product", async () => {
-    const { data } = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products`);
+export const getProducts = createAsyncThunk("product", async ({ categoryId, sort, filter }) => {
+    let query = `https://workintech-fe-ecommerce.onrender.com/products?`;
+
+    if (categoryId) {
+        query += `category=${categoryId}&`;
+    }
+    if (sort) {
+        query += `sort=${sort}&`;
+    }
+    if (filter) {
+        query += `filter=${filter}&`;
+    }
+
+    const { data } = await axios.get(query);
     return data;
 });
-
 
 const productSlice = createSlice({
     name: 'product',
@@ -47,7 +58,8 @@ const productSlice = createSlice({
         setFilter: (state, action) => {
             state.filter = action.payload;
         },
-    }, extraReducers: (builder) => {
+    },
+    extraReducers: (builder) => {
         builder
             .addCase(getCategories.pending, (state) => {
                 state.fetchState = "FETCHING";

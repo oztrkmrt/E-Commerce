@@ -2,6 +2,7 @@ import { getProducts } from "@/redux/slices/productSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../Spinner/Spinner";
+import { useHistory } from "react-router-dom";
 
 const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
@@ -12,13 +13,13 @@ const truncateText = (text, maxLength) => {
 const ShopProductCards = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const { productList, fetchState } = useSelector(state => state.product);
 
     useEffect(() => {
         dispatch(getProducts())
     }, [dispatch]);
-
 
     if (fetchState === "FETCHING") {
         return <Spinner />
@@ -32,8 +33,12 @@ const ShopProductCards = () => {
         <div className="px-4 md:px-10">
             <div className="flex flex-wrap items-cener justify-between gap-10 mt-14 mb-8">
                 {productList.map((product) => (
-                    <div className="flex flex-col w-full h-auto md:w-1/3 lg:w-1/4 xl:w-1/5 p-2 shadow cursor-pointer hover:shadow-lg" key={product.id}>
-                        <img src={product.images[0]?.url} alt={product.name} className="w-[full] h-[300px] object-cover mx-auto md:w-2/4 mx-auto lg:w-3/4" />
+                    <div className="flex flex-col w-full h-auto md:w-1/3 lg:w-1/4 xl:w-1/5 p-2 shadow cursor-pointer hover:shadow-lg"
+                        key={product.id}
+                        onClick={() => history.push(`/products/${product.id}`)}>
+                        <img src={product.images[0]?.url}
+                            alt={product.name}
+                            className="w-[full] h-[300px] object-cover mx-auto md:w-2/4 mx-auto lg:w-3/4" />
                         <div className="flex flex-col text-center items-center px-4 mt-4 gap-4">
                             <h5 className="text-[#252B42] font-bold">
                                 {product.name}
