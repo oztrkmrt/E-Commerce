@@ -47,15 +47,23 @@ const HeaderMenuItem = () => {
                                 <p className='cursor-pointer text-[#252B42] mb-8'>Kadın</p>
                                 {
                                     femaleCategories.map((category) => (
-                                        <Link key={category.id} to={`/shop/kadın/${category.title}`}>{category.title}</Link>
+                                        <Link
+                                            key={category.id}
+                                            to={`/shop/kadin/${category.title.toLowerCase()}/${category.id}`}
+                                            className="hover:underline"
+                                        >{category.title}</Link>
                                     ))
                                 }
                             </div>
                             <div className='flex flex-col gap-4 mt-4'>
                                 <p className='cursor-pointer text-[#252B42] mb-8'>Erkek</p>
                                 {
-                                    femaleCategories.map((category) => (
-                                        <Link key={category.id} to={`/shop/erkek/${category.title}`}>{category.title}</Link>
+                                    maleCategories.map((category) => (
+                                        <Link
+                                            key={category.id}
+                                            to={`/shop/erkek/${category.title.toLowerCase()}/${category.id}`}
+                                            className="hover:underline"
+                                        >{category.title}</Link>
                                     ))
                                 }
                             </div>
