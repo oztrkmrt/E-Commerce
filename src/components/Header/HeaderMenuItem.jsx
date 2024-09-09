@@ -1,18 +1,20 @@
+import React, { useEffect, useState, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useHistory, useLocation } from 'react-router-dom'
+import { getCategories } from '@/redux/slices/productSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
-import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronUp } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCategories } from '@/redux/slices/productSlice'
 import GravatarImage from '@/gravatar/GravatarImage'
-
 
 const HeaderMenuItem = () => {
 
     const [isOpen, setIsOpen] = useState(false)
     const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
+    const dropdownRef = useRef(null);
 
     const { user } = useSelector(state => state.client);
 
@@ -21,18 +23,38 @@ const HeaderMenuItem = () => {
     const maleCategories = categories.filter(category => category.gender === "e");
     const femaleCategories = categories.filter(category => category.gender === "k");
 
-
-
     useEffect(() => {
         dispatch(getCategories())
     }, [dispatch])
+
+    useEffect(() => {
+        setIsOpen(false);
+    }, [location]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleCategoryClick = (gender, categoryName) => {
+        history.push(`/shop/${gender}/${categoryName.toLowerCase()}`);
+        setIsOpen(false);
+    };
 
     return (
 
         <div className='flex flex-col justify-between items-center md:flex-row md:w-full'>
             <div className='flex flex-col text-3xl pb-20 items-center md:flex-row md:py-0 md:gap-6 md:text-xl md:font-medium'>
                 <Link to={"/"} className="py-4 text-[#737373]">Home</Link>
-                <div className='flex items-center text-[#737373] cursor-pointer relative' >
+                <div className='flex items-center text-[#737373] cursor-pointer relative' ref={dropdownRef}>
                     <Link to="/shop" className="py-4 ">Shop</Link>
                     <div onClick={() => setIsOpen((prev) => !prev)}>
                         {!isOpen ? (
@@ -47,11 +69,11 @@ const HeaderMenuItem = () => {
                                 <p className='cursor-pointer text-[#252B42] mb-8'>Kadın</p>
                                 {
                                     femaleCategories.map((category) => (
-                                        <Link
+                                        <span
                                             key={category.id}
-                                            to={`/shop/kadin/${category.title.toLowerCase()}/${category.id}`}
-                                            className="hover:underline"
-                                        >{category.title}</Link>
+                                            onClick={() => handleCategoryClick('kadin', category.title)}
+                                            className="hover:underline cursor-pointer"
+                                        >{category.title}</span>
                                     ))
                                 }
                             </div>
@@ -59,11 +81,11 @@ const HeaderMenuItem = () => {
                                 <p className='cursor-pointer text-[#252B42] mb-8'>Erkek</p>
                                 {
                                     maleCategories.map((category) => (
-                                        <Link
+                                        <span
                                             key={category.id}
-                                            to={`/shop/erkek/${category.title.toLowerCase()}/${category.id}`}
-                                            className="hover:underline"
-                                        >{category.title}</Link>
+                                            onClick={() => handleCategoryClick('erkek', category.title, category.id)}
+                                            className="hover:underline cursor-pointer"
+                                        >{category.title}</span>
                                     ))
                                 }
                             </div>

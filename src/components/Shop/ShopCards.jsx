@@ -1,6 +1,7 @@
 import { getCategories } from "@/redux/slices/productSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const ShopCards = () => {
 
@@ -17,7 +18,11 @@ const ShopCards = () => {
     return (
         <div className="flex flex-col gap-4 py-6 px-10 bg-[#FAFAFA] md:flex-row md:px-20 justify-between">
             {topCategories.map((category) => (
-                <div key={category.id} className="relative">
+                <Link
+                    key={category.id}
+                    to={`/shop/${category.gender === 'e' ? 'erkek' : 'kadin'}/${category.title.toLowerCase()}/${category.id}`}
+                    className="relative"
+                >
                     <img
                         src={category.img}
                         alt={category.title}
@@ -25,11 +30,10 @@ const ShopCards = () => {
                     />
                     <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white font-medium gap-8">
                         <h5 className="text-xl">{category.title}</h5>
-                        <h5 className="text-xl">{category.rating}</h5>
+                        <h5 className="text-xl">Rating: {category.rating}</h5>
                     </div>
-                </div>
+                </Link>
             ))}
-
         </div>
     );
 };

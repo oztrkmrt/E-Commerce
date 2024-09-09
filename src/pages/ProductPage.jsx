@@ -8,6 +8,7 @@ import ShopTitle from "@/components/Shop/ShopTitle";
 
 
 const ProductPage = () => {
+
     return (
         <div>
             <ShopTitle />

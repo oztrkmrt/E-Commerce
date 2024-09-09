@@ -8,14 +8,28 @@ const initialState = {
     limit: 25,
     offset: 0,
     filter: '',
+    sort: '',
     fetchState: 'NOT_FETCHED',
 }
 export const getCategories = createAsyncThunk("category", async () => {
     const { data } = await axios.get("https://workintech-fe-ecommerce.onrender.com/categories");
     return data;
 });
-export const getProducts = createAsyncThunk("product", async () => {
-    const { data } = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products`);
+
+export const getProducts = createAsyncThunk("product", async ({ categoryId, sort, filter }) => {
+    let query = `https://workintech-fe-ecommerce.onrender.com/products?`;
+
+    if (categoryId) {
+        query += `category=${categoryId}&`;
+    }
+    if (sort) {
+        query += `sort=${sort}&`;
+    }
+    if (filter) {
+        query += `filter=${filter}&`;
+    }
+
+    const { data } = await axios.get(query);
     return data;
 });
 
@@ -44,6 +58,9 @@ const productSlice = createSlice({
         setFilter: (state, action) => {
             state.filter = action.payload;
         },
+        setSort: (state, action) => {
+            state.sort = action.payload
+        }
     }, extraReducers: (builder) => {
         builder
             .addCase(getCategories.pending, (state) => {
@@ -76,6 +93,7 @@ export const {
     setFetchState,
     setLimit,
     setOffset,
-    setFilter
+    setFilter,
+    setSort
 } = productSlice.actions;
 export default productSlice.reducer;
