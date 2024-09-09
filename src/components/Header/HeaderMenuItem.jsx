@@ -44,8 +44,9 @@ const HeaderMenuItem = () => {
         };
     }, []);
 
-    const handleCategoryClick = (gender, categoryName) => {
-        history.push(`/shop/${gender}/${categoryName.toLowerCase()}`);
+    const handleCategoryClick = (gender, category) => {
+        const genderText = gender === 'k' ? 'kadin' : 'erkek';
+        history.push(`/shop/${genderText}/${category.title.toLowerCase()}/${category.id}`);
         setIsOpen(false);
     };
 
@@ -71,7 +72,7 @@ const HeaderMenuItem = () => {
                                     femaleCategories.map((category) => (
                                         <span
                                             key={category.id}
-                                            onClick={() => handleCategoryClick('kadin', category.title)}
+                                            onClick={() => handleCategoryClick('k', category)}
                                             className="hover:underline cursor-pointer"
                                         >{category.title}</span>
                                     ))
