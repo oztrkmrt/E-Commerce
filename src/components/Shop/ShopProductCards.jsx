@@ -17,7 +17,11 @@ const ShopProductCards = () => {
 
     const handleProductClick = (product) => {
         const productNameSlug = slugify(product.name);
-        history.push(`/shop/${gender}/${category}/${categoryId}/${productNameSlug}/${product.id}`);
+        const safeGender = gender || 'all';
+        const safeCategory = category || 'all-products';
+        const safeCategoryId = categoryId || '0';
+
+        history.push(`/shop/${safeGender}/${safeCategory}/${safeCategoryId}/${productNameSlug}/${product.id}`);
     };
 
     return (

@@ -16,7 +16,7 @@ const PageContent = () => {
                 <Route path="/" exact> <HomePage /> </Route>
                 <Route path="/shop" exact> <ShopPage /> </Route>
                 <Route path="/shop/:gender/:category/:categoryId"> <ShopPage /> </Route>
-                <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId"> <ProductDetailPage /> </Route>
+                <Route path="/shop/:gender/:category/:categoryId/:productNameSlug/:productId"> <ProductDetailPage /> </Route>
                 <Route path="/contact"> <ContactPage /> </Route>
                 <Route path="/team"> <TeamPage /> </Route>
                 <Route path="/about"> <AboutUsPage /> </Route>

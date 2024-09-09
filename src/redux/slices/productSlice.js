@@ -9,23 +9,7 @@ const initialState = {
     filter: '',
     sort: '',
     fetchState: 'NOT_FETCHED',
-    product: {
-        "id": 322,
-        "name": "Gri Regular Astar",
-        "description": "Gri Regular Astar Detaylı Dokuma Blazer Ceket TWOAW20CE0316",
-        "price": 461.99,
-        "stock": 140,
-        "store_id": 1,
-        "category_id": 3,
-        "rating": 3.64,
-        "sell_count": 281,
-        "images": [
-            {
-                "url": "https://cdn.dsmcdn.com/ty181/product/media/images/20210923/14/135755138/57457659/1/1_org_zoom.jpg",
-                "index": 0
-            }
-        ]
-    },
+    currentProduct: null,
     loading: false,
     error: null,
 }
@@ -87,8 +71,8 @@ const productSlice = createSlice({
         setSort: (state, action) => {
             state.sort = action.payload
         },
-        setProduct: (state, action) => {
-            state.product = action.payload;
+        setCurrentProduct: (state, action) => {
+            state.currentProduct = action.payload;
         }
     }, extraReducers: (builder) => {
         builder
@@ -115,13 +99,16 @@ const productSlice = createSlice({
             })
             .addCase(getProductDetail.pending, (state) => {
                 state.loading = true;
+                state.error = null;
             })
             .addCase(getProductDetail.fulfilled, (state, action) => {
+                console.log('Fulfilled action payload:', action.payload); // Fulfilled action payload'ını loglayalım
                 state.currentProduct = action.payload;
                 state.loading = false;
             })
             .addCase(getProductDetail.rejected, (state, action) => {
-                state.error = action.error.message;
+                console.error('Rejected action payload:', action.payload); // Rejected action payload'ını loglayalım
+                state.error = action.payload;
                 state.loading = false;
             });
     }
@@ -135,6 +122,6 @@ export const {
     setOffset,
     setFilter,
     setSort,
-    setProduct
+    setCurrentProduct
 } = productSlice.actions;
 export default productSlice.reducer;

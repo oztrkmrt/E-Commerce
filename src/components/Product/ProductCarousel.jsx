@@ -2,11 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 
-const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, product }) => {
-    const products = [
-        { url: "/images/product-carousel1.jpg" },
-        { url: "/images/product-carousel2.jpg" },
-    ];
+const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, currentProduct }) => {
 
     const [curr, setCurr] = useState(0);
 
@@ -30,11 +26,11 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, product 
                     className="flex transition-transform ease-out duration-500 h-full"
                     style={{ transform: `translateX(-${curr * 100}%)` }}
                 >
-                    {product.map((prod) => (
-                        <div key={prod.id} className="w-full h-full flex-shrink-0">
+                    {currentProduct.map((product) => (
+                        <div key={product.id} className="w-full h-full flex-shrink-0">
                             <img
-                                src={prod.images[0].url}
-                                alt={`Prod ${index + 1}`}
+                                src={product.images[0].url}
+                                alt={`product ${index + 1}`}
                                 className="w-full h-full object-cover"
                             />
                         </div>
