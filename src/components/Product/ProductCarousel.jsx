@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 
-const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000 }) => {
+const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, product }) => {
     const products = [
         { url: "/images/product-carousel1.jpg" },
         { url: "/images/product-carousel2.jpg" },
@@ -30,11 +30,11 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000 }) => {
                     className="flex transition-transform ease-out duration-500 h-full"
                     style={{ transform: `translateX(-${curr * 100}%)` }}
                 >
-                    {products.map((product, index) => (
-                        <div key={index} className="w-full h-full flex-shrink-0">
+                    {product.map((prod) => (
+                        <div key={prod.id} className="w-full h-full flex-shrink-0">
                             <img
-                                src={product.url}
-                                alt={`Product ${index + 1}`}
+                                src={prod.images[0].url}
+                                alt={`Prod ${index + 1}`}
                                 className="w-full h-full object-cover"
                             />
                         </div>
@@ -50,9 +50,9 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000 }) => {
                 </div>
             </div>
             <div className="flex gap-4">
-                {products.map((product, index) => (
-                    <img key={index} className={`w-[100px] h-[75px] object-cover cursor-pointer ${index !== curr ? "opacity-50" : "opacity-100"
-                        }`} src={product.url} alt="" onClick={() => handleClick(index)} />
+                {product.map((prod) => (
+                    <img key={prod.id} className={`w-[100px] h-[75px] object-cover cursor-pointer ${index !== curr ? "opacity-50" : "opacity-100"
+                        }`} src={prod.images[0].url} alt="" onClick={() => handleClick(index)} />
                 ))}
             </div>
         </div>

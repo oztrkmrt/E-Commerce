@@ -23,8 +23,8 @@ const ShopPage = () => {
     const { categories, productList, total } = useSelector(state => state.product);
 
     useEffect(() => {
-        dispatch(getCategories());
-    }, [dispatch]);
+        dispatch(getProducts({ categoryId: categoryId || '' }));
+    }, [dispatch, categoryId]);
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -77,7 +77,7 @@ const ShopPage = () => {
 
     return (
         <div>
-            <ShopTitle gender={gender} category={category} />
+            <ShopTitle />
             <ShopCards />
             <ShopFilter
                 sort={sort}

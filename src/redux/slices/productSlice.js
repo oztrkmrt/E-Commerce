@@ -9,6 +9,25 @@ const initialState = {
     filter: '',
     sort: '',
     fetchState: 'NOT_FETCHED',
+    product: {
+        "id": 322,
+        "name": "Gri Regular Astar",
+        "description": "Gri Regular Astar Detaylı Dokuma Blazer Ceket TWOAW20CE0316",
+        "price": 461.99,
+        "stock": 140,
+        "store_id": 1,
+        "category_id": 3,
+        "rating": 3.64,
+        "sell_count": 281,
+        "images": [
+            {
+                "url": "https://cdn.dsmcdn.com/ty181/product/media/images/20210923/14/135755138/57457659/1/1_org_zoom.jpg",
+                "index": 0
+            }
+        ]
+    },
+    loading: false,
+    error: null,
 }
 export const getCategories = createAsyncThunk("category", async () => {
     const { data } = await axios.get("https://workintech-fe-ecommerce.onrender.com/categories");
@@ -31,6 +50,14 @@ export const getProducts = createAsyncThunk("product", async ({ categoryId, sort
     const { data } = await axios.get(query);
     return data;
 });
+
+export const getProductDetail = createAsyncThunk(
+    'product/getProductDetail',
+    async (productId) => {
+        const response = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`);
+        return response.data;
+    }
+);
 
 const productSlice = createSlice({
     name: 'product',
@@ -59,6 +86,9 @@ const productSlice = createSlice({
         },
         setSort: (state, action) => {
             state.sort = action.payload
+        },
+        setProduct: (state, action) => {
+            state.product = action.payload;
         }
     }, extraReducers: (builder) => {
         builder
@@ -82,6 +112,17 @@ const productSlice = createSlice({
             })
             .addCase(getProducts.rejected, (state) => {
                 state.fetchState = "FAILED";
+            })
+            .addCase(getProductDetail.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getProductDetail.fulfilled, (state, action) => {
+                state.currentProduct = action.payload;
+                state.loading = false;
+            })
+            .addCase(getProductDetail.rejected, (state, action) => {
+                state.error = action.error.message;
+                state.loading = false;
             });
     }
 });
@@ -93,6 +134,7 @@ export const {
     setLimit,
     setOffset,
     setFilter,
-    setSort
+    setSort,
+    setProduct
 } = productSlice.actions;
 export default productSlice.reducer;

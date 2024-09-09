@@ -2,7 +2,7 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faCartShopping, faEye, faStar, faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ProductDetails = () => {
+const ProductDetails = ({ product }) => {
     return (
         <div className="px-20 py-10 flex flex-col gap-4">
             <h4 className="text-3xl text-[#252B42] font-medium">Floating Phone</h4>
@@ -14,9 +14,12 @@ const ProductDetails = () => {
                 <FontAwesomeIcon icon={faStarHalfStroke} style={{ color: "#F3CD03", }} />
                 <p className="pl-4 text-[#737373] ">10 Reviews</p>
             </div>
-            <h5 className="text-[#252B42] text-3xl font-bold">$1,139.33</h5>
+            <h5 className="text-[#252B42] text-3xl font-bold">${product.price}</h5>
             <div className="font-semibold">
-                <span className="text-[#737373]">Availability : </span><span className="text-[#23A6F0] "> In Stock</span>
+                <span className="text-[#737373]">Availability : </span>
+                <span className={product.stock > 0 ? "text-[#23A6F0]" : "text-red-500"}>
+                    {product.stock > 0 ? " In Stock" : " Out Of Stock"}
+                </span>
             </div>
             <p className="text-[#858585]">Met minim Mollie non desert
                 Alamo est sit cliquey dolor do
