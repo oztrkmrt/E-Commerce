@@ -68,3 +68,57 @@
     @apply bg-background text-foreground;
   }
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination li a {
+  padding: 8px 16px;
+  border: 1px solid #E5E5E5;
+  background-color: #F3F3F3;
+  color: #BDBDBD;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-radius: 0.2rem;
+}
+
+.pagination li.active a {
+  background-color: #23A6F0;
+  color: white;
+  border-color: #23A6F0;
+}
+
+.pagination li:not(.active):hover a {
+  background-color: #E5E5E5;
+  color: #23A6F0;
+}
+
+.pagination li.disabled a {
+  color: #BDBDBD;
+  cursor: not-allowed;
+}
+
+.pagination li:first-child a,
+.pagination li:last-child a {
+  background-color: white;
+  border: 1px solid #E5E5E5;
+  color: #23A6F0;
+  font-weight: bold;
+}
+
+.pagination li:first-child a:hover,
+.pagination li:last-child a:hover {
+  background-color: #F3F3F3;
+}

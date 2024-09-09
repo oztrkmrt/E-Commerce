@@ -15,17 +15,17 @@ export const getCategories = createAsyncThunk("category", async () => {
     return data;
 });
 
-export const getProducts = createAsyncThunk("product", async ({ categoryId, sort, filter }) => {
-    let query = `https://workintech-fe-ecommerce.onrender.com/products?`;
+export const getProducts = createAsyncThunk("product", async ({ categoryId, sort, filter, limit = 25, offset = 0 }) => {
+    let query = `https://workintech-fe-ecommerce.onrender.com/products?limit=${limit}&offset=${offset}`;
 
     if (categoryId) {
-        query += `category=${categoryId}&`;
+        query += `&category=${categoryId}`;
     }
     if (sort) {
-        query += `sort=${sort}&`;
+        query += `&sort=${sort}`;
     }
     if (filter) {
-        query += `filter=${filter}&`;
+        query += `&filter=${filter}`;
     }
 
     const { data } = await axios.get(query);

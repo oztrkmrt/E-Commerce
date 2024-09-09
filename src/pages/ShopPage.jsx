@@ -1,13 +1,13 @@
 import ClientIcons from "@/components/Icons/ClientIcons";
 import ShopCards from "@/components/Shop/ShopCards";
 import ShopFilter from "@/components/Shop/ShopFilter";
-import ShopPagination from "@/components/Shop/ShopPagination";
 import ShopProductCards from "@/components/Shop/ShopProductCards";
 import ShopTitle from "@/components/Shop/ShopTitle";
 import { getProducts, getCategories } from "@/redux/slices/productSlice";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation, useHistory } from "react-router-dom";
+import ReactPaginate from 'react-paginate';
 
 const ShopPage = () => {
     const dispatch = useDispatch();
@@ -16,8 +16,11 @@ const ShopPage = () => {
     const { gender, category, categoryId } = useParams();
     const [sort, setSort] = useState("");
     const [filter, setFilter] = useState("");
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const limit = 25;
 
-    const { categories, productList } = useSelector(state => state.product);
+    const { categories, productList, total } = useSelector(state => state.product);
 
     useEffect(() => {
         dispatch(getCategories());
@@ -27,22 +30,37 @@ const ShopPage = () => {
         const searchParams = new URLSearchParams(location.search);
         const sortParam = searchParams.get('sort');
         const filterParam = searchParams.get('filter');
+        const pageParam = searchParams.get('page');
 
         if (sortParam) setSort(sortParam);
         if (filterParam) setFilter(filterParam);
+        if (pageParam) setCurrentPage(parseInt(pageParam) - 1);
 
-        dispatch(getProducts({ categoryId, sort: sortParam || sort, filter: filterParam || filter }));
-    }, [dispatch, categoryId, location.search]);
+        const offset = currentPage * limit;
+        dispatch(getProducts({ categoryId, sort: sortParam || sort, filter: filterParam || filter, limit, offset }))
+            .then((action) => {
+                if (action.payload && action.payload.total) {
+                    setTotalPages(Math.ceil(action.payload.total / limit));
+                }
+            });
+    }, [dispatch, categoryId, location.search, currentPage]);
 
-    const updateURL = (newSort, newFilter) => {
+    const updateURL = (newSort, newFilter, newPage) => {
         const searchParams = new URLSearchParams(location.search);
         if (newSort) searchParams.set('sort', newSort);
         if (newFilter) searchParams.set('filter', newFilter);
+        if (newPage) searchParams.set('page', newPage.toString());
 
         history.push({
             pathname: location.pathname,
             search: searchParams.toString()
         });
+    };
+
+    const handlePageChange = (selectedItem) => {
+        const newPage = selectedItem.selected + 1;
+        setCurrentPage(selectedItem.selected);
+        updateURL(sort, filter, newPage);
     };
 
     const handleSortChange = (e) => {
@@ -68,7 +86,26 @@ const ShopPage = () => {
                 onFilterChange={handleFilterChange}
             />
             <ShopProductCards products={productList} />
-            <ShopPagination />
+            <ReactPaginate
+                previousLabel={"First"}
+                nextLabel={"Next"}
+                breakLabel={"..."}
+                pageCount={totalPages}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageChange}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                previousClassName={"previous"}
+                nextClassName={"next"}
+                disabledClassName={"disabled"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousLinkClassName={"page-link"}
+                nextLinkClassName={"page-link"}
+                breakClassName={"break"}
+                breakLinkClassName={"break-link"}
+            />
             <ClientIcons />
         </div>
     );
