@@ -10,7 +10,7 @@ const truncateText = (text, maxLength) => {
     return text;
 };
 
-const ShopProductCards = ({ products, gender, category, categoryId }) => {
+const ShopProductCards = ({ gender, categoryName, categoryId }) => {
     const history = useHistory();
     const location = useLocation();
     const { productList } = useSelector(state => state.product);
@@ -18,7 +18,7 @@ const ShopProductCards = ({ products, gender, category, categoryId }) => {
     const handleProductClick = (product) => {
         console.log('Clicked product:', product);
         const productNameSlug = slugify(product.name);
-        const url = `/shop/${gender || 'all'}/${category || 'all-products'}/${categoryId || '0'}/${productNameSlug}/${product.id}`;
+        const url = `/shop/${gender}/${categoryName}/${categoryId}/${productNameSlug}/${product.id}`;
         console.log('Navigating to:', url);
         console.log('Current location:', location.pathname);
         history.push(url);

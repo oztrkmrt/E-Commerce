@@ -14,7 +14,7 @@ const ShopPage = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const history = useHistory();
-    const { gender, category, categoryId, productId } = useParams();
+    const { gender, categoryName, categoryId, productId } = useParams();
     const [sort, setSort] = useState("");
     const [filter, setFilter] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
@@ -84,7 +84,7 @@ const ShopPage = () => {
         return <ProductDetailPage />;
     }
 
-    console.log(gender, category, categoryId);
+    console.log(gender, categoryName, categoryId);
 
     return (
         <div>
@@ -96,7 +96,9 @@ const ShopPage = () => {
                 onSortChange={handleSortChange}
                 onFilterChange={handleFilterChange}
             />
-            <ShopProductCards gender={gender} category={category} categoryId={categoryId} />
+            <ShopProductCards gender={gender || 'all'}
+                categoryName={categoryName || 'all-products'}
+                categoryId={categoryId || '0'} />
             <ProductDetailPage />
             <ReactPaginate
                 previousLabel={"First"}

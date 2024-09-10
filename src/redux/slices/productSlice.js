@@ -9,7 +9,7 @@ const initialState = {
     filter: '',
     sort: '',
     fetchState: 'NOT_FETCHED',
-    currentProduct: {},
+    currentProduct: null,
     loading: false,
     error: null,
 }
@@ -45,10 +45,15 @@ export const getProductDetail = createAsyncThunk(
             }
             const response = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`);
             console.log('API response:', response.data);
+
+            if (!response.data) {
+                throw new Error('No data received from API');
+            }
+
             return response.data;
         } catch (error) {
             console.error('Error in getProductDetail:', error);
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message || 'An error occurred while fetching product details');
         }
     }
 );

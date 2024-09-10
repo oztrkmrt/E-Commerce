@@ -3,7 +3,6 @@ import AboutUsPage from "@/pages/AboutUsPage";
 import ContactPage from "@/pages/ContactPage";
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
-import ProductDetailPage from "@/pages/ProductDetailPage";
 import ShopPage from "@/pages/ShopPage";
 import SignUpPage from "@/pages/SignUpPage";
 import TeamPage from "@/pages/TeamPage";
@@ -15,8 +14,8 @@ const PageContent = () => {
             <Switch>
                 <Route path="/" exact> <HomePage /> </Route>
                 <Route path="/shop" exact> <ShopPage /> </Route>
-                <Route path="/shop/:gender/:category/:categoryId"> <ShopPage /> </Route>
-                <Route path="/shop/:gender/:category/:categoryId/:productNameSlug/:productId"> <ProductDetailPage /> </Route>
+                <Route path="/shop/:gender/:categoryName/:categoryId"> <ShopPage /> </Route>
+                <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId"> <ShopPage /> </Route>
                 <Route path="/contact"> <ContactPage /> </Route>
                 <Route path="/team"> <TeamPage /> </Route>
                 <Route path="/about"> <AboutUsPage /> </Route>
