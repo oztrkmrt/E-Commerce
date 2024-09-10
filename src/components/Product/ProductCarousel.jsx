@@ -6,6 +6,12 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, currentP
 
     const [curr, setCurr] = useState(0);
 
+    if (!currentProduct || !currentProduct.images) {
+        return <div>Loading...</div>;
+    }
+
+    const images = currentProduct.images;
+
     const prev = () => setCurr(curr === 0 ? products.length - 1 : curr - 1);
     const next = () => setCurr(curr === products.length - 1 ? 0 : curr + 1);
 
@@ -26,10 +32,10 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, currentP
                     className="flex transition-transform ease-out duration-500 h-full"
                     style={{ transform: `translateX(-${curr * 100}%)` }}
                 >
-                    {currentProduct.map((product) => (
-                        <div key={product.id} className="w-full h-full flex-shrink-0">
+                    {images.map((product, index) => (
+                        <div key={index} className="w-full h-full flex-shrink-0">
                             <img
-                                src={product.images[0].url}
+                                src={product.url}
                                 alt={`product ${index + 1}`}
                                 className="w-full h-full object-cover"
                             />
@@ -46,9 +52,10 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, currentP
                 </div>
             </div>
             <div className="flex gap-4">
-                {product.map((prod) => (
-                    <img key={prod.id} className={`w-[100px] h-[75px] object-cover cursor-pointer ${index !== curr ? "opacity-50" : "opacity-100"
-                        }`} src={prod.images[0].url} alt="" onClick={() => handleClick(index)} />
+                {images.map((image, index) => (
+                    <img key={index} className={`w-[100px] h-[75px] object-cover cursor-pointer ${index !== curr ? "opacity-50" : "opacity-100"
+                        }`} src={image.url} alt=""
+                        onClick={() => handleClick(index)} />
                 ))}
             </div>
         </div>

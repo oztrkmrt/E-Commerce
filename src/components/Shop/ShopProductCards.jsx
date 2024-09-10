@@ -1,7 +1,7 @@
-import { slugify } from '@/Utils/helpers';
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { slugify } from '@/Utils/helpers';
 
 const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
@@ -10,18 +10,18 @@ const truncateText = (text, maxLength) => {
     return text;
 };
 
-const ShopProductCards = () => {
+const ShopProductCards = ({ products, gender, category, categoryId }) => {
     const history = useHistory();
-    const { gender, category, categoryId } = useParams();
+    const location = useLocation();
     const { productList } = useSelector(state => state.product);
 
     const handleProductClick = (product) => {
+        console.log('Clicked product:', product);
         const productNameSlug = slugify(product.name);
-        const safeGender = gender || 'all';
-        const safeCategory = category || 'all-products';
-        const safeCategoryId = categoryId || '0';
-
-        history.push(`/shop/${safeGender}/${safeCategory}/${safeCategoryId}/${productNameSlug}/${product.id}`);
+        const url = `/shop/${gender || 'all'}/${category || 'all-products'}/${categoryId || '0'}/${productNameSlug}/${product.id}`;
+        console.log('Navigating to:', url);
+        console.log('Current location:', location.pathname);
+        history.push(url);
     };
 
     return (

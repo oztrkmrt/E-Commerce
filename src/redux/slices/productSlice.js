@@ -9,7 +9,7 @@ const initialState = {
     filter: '',
     sort: '',
     fetchState: 'NOT_FETCHED',
-    currentProduct: null,
+    currentProduct: {},
     loading: false,
     error: null,
 }
@@ -37,9 +37,19 @@ export const getProducts = createAsyncThunk("product", async ({ categoryId, sort
 
 export const getProductDetail = createAsyncThunk(
     'product/getProductDetail',
-    async (productId) => {
-        const response = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`);
-        return response.data;
+    async (productId, { rejectWithValue }) => {
+        try {
+            console.log('getProductDetail called with productId:', productId);
+            if (!productId) {
+                throw new Error('Product ID is undefined');
+            }
+            const response = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`);
+            console.log('API response:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Error in getProductDetail:', error);
+            return rejectWithValue(error.message);
+        }
     }
 );
 
@@ -102,14 +112,15 @@ const productSlice = createSlice({
                 state.error = null;
             })
             .addCase(getProductDetail.fulfilled, (state, action) => {
-                console.log('Fulfilled action payload:', action.payload); // Fulfilled action payload'ını loglayalım
+                console.log('Fulfilled action payload:', action.payload);
                 state.currentProduct = action.payload;
                 state.loading = false;
             })
             .addCase(getProductDetail.rejected, (state, action) => {
-                console.error('Rejected action payload:', action.payload); // Rejected action payload'ını loglayalım
+                console.error('Rejected action payload:', action.payload);
                 state.error = action.payload;
                 state.loading = false;
+                state.currentProduct = null;
             });
     }
 });

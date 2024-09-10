@@ -84,7 +84,7 @@ const HeaderMenuItem = () => {
                                     maleCategories.map((category) => (
                                         <span
                                             key={category.id}
-                                            onClick={() => handleCategoryClick('erkek', category.title, category.id)}
+                                            onClick={() => handleCategoryClick('erkek', category)}
                                             className="hover:underline cursor-pointer"
                                         >{category.title}</span>
                                     ))

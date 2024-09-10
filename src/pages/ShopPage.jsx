@@ -8,42 +8,47 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
+import ProductDetailPage from "./ProductDetailPage";
 
 const ShopPage = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const history = useHistory();
-    const { gender, category, categoryId } = useParams();
+    const { gender, category, categoryId, productId } = useParams();
     const [sort, setSort] = useState("");
     const [filter, setFilter] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const limit = 25;
-
-    const { categories, productList, total } = useSelector(state => state.product);
-
-    useEffect(() => {
-        dispatch(getProducts({ categoryId: categoryId || '' }));
-    }, [dispatch, categoryId]);
+    const isProductDetailPage = !!productId;
 
     useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
-        const sortParam = searchParams.get('sort');
-        const filterParam = searchParams.get('filter');
-        const pageParam = searchParams.get('page');
+        if (!isProductDetailPage) {
+            dispatch(getProducts({ categoryId }));
+        }
+    }, [dispatch, categoryId, isProductDetailPage]);
 
-        if (sortParam) setSort(sortParam);
-        if (filterParam) setFilter(filterParam);
-        if (pageParam) setCurrentPage(parseInt(pageParam) - 1);
+    useEffect(() => {
+        if (!isProductDetailPage) {
+            const searchParams = new URLSearchParams(location.search);
+            const sortParam = searchParams.get('sort');
+            const filterParam = searchParams.get('filter');
+            const pageParam = searchParams.get('page');
 
-        const offset = currentPage * limit;
-        dispatch(getProducts({ categoryId, sort: sortParam || sort, filter: filterParam || filter, limit, offset }))
-            .then((action) => {
-                if (action.payload && action.payload.total) {
-                    setTotalPages(Math.ceil(action.payload.total / limit));
-                }
-            });
-    }, [dispatch, categoryId, location.search, currentPage]);
+            if (sortParam) setSort(sortParam);
+            if (filterParam) setFilter(filterParam);
+            if (pageParam) setCurrentPage(parseInt(pageParam) - 1);
+
+            const offset = currentPage * limit;
+            dispatch(getProducts({ categoryId, sort: sortParam || sort, filter: filterParam || filter, limit, offset }))
+                .then((action) => {
+                    if (action.payload && action.payload.total) {
+                        setTotalPages(Math.ceil(action.payload.total / limit));
+                    }
+                });
+        }
+    }, [dispatch, categoryId, location.search, currentPage, isProductDetailPage]);
+
 
     const updateURL = (newSort, newFilter, newPage) => {
         const searchParams = new URLSearchParams(location.search);
@@ -75,6 +80,12 @@ const ShopPage = () => {
         updateURL(sort, newFilter);
     };
 
+    if (productId) {
+        return <ProductDetailPage />;
+    }
+
+    console.log(gender, category, categoryId);
+
     return (
         <div>
             <ShopTitle />
@@ -85,7 +96,8 @@ const ShopPage = () => {
                 onSortChange={handleSortChange}
                 onFilterChange={handleFilterChange}
             />
-            <ShopProductCards products={productList} />
+            <ShopProductCards gender={gender} category={category} categoryId={categoryId} />
+            <ProductDetailPage />
             <ReactPaginate
                 previousLabel={"First"}
                 nextLabel={"Next"}
