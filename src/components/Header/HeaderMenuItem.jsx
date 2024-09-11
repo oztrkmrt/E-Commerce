@@ -11,14 +11,18 @@ import GravatarImage from '@/gravatar/GravatarImage'
 const HeaderMenuItem = () => {
 
     const [isOpen, setIsOpen] = useState(false)
+    const [isCartOpen, setIsCartOpen] = useState(false)
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
     const dropdownRef = useRef(null);
 
     const { user } = useSelector(state => state.client);
-
     const { categories } = useSelector(state => state.product);
+    const { cart } = useSelector(state => state.shoppingCart);
+
+    const totalItems = cart.reduce((total, item) => total + item.count, 0);
+    const totalPrice = cart.reduce((total, item) => total + (item.product.price * item.count), 0);
 
     const maleCategories = categories.filter(category => category.gender === "e");
     const femaleCategories = categories.filter(category => category.gender === "k");
@@ -115,10 +119,44 @@ const HeaderMenuItem = () => {
                     </div>
                 )}
                 <div className='flex gap-6 items-center'>
-                    <FontAwesomeIcon href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0", }} />
-                    <FontAwesomeIcon icon={faCartShopping} style={{ color: "#23A6F0", }} />
-                    <FontAwesomeIcon icon={faHeart} style={{ color: "#23A6F0", }} />
+                    <FontAwesomeIcon href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0" }} />
+                    <div className='relative' onClick={() => setIsCartOpen(!isCartOpen)}>
+                        <FontAwesomeIcon icon={faCartShopping} style={{ color: "#23A6F0" }} />
+                        {totalItems > 0 && (
+                            <span className='absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs'>
+                                {totalItems}
+                            </span>
+                        )}
+                    </div>
+                    <FontAwesomeIcon icon={faHeart} style={{ color: "#23A6F0" }} />
                 </div>
+                {isCartOpen && (
+                    <div className='absolute top-full right-0 mt-2 w-64 bg-white shadow-lg rounded-lg z-50'>
+                        <div className='p-4'>
+                            <h3 className='font-bold mb-2'>Sepetim ({totalItems} Ürün)</h3>
+                            {cart.map((item) => (
+                                <div key={item.product.id} className='flex justify-between items-center mb-2'>
+                                    <img src={item.product.images[0].url} alt={item.product.name} className='w-12 h-12 object-cover' />
+                                    <div className='flex-1 ml-2'>
+                                        <p className='text-sm'>{item.product.name}</p>
+                                        <p className='text-xs'>Adet: {item.count}</p>
+                                    </div>
+                                    <p className='text-sm font-bold'>{item.product.price * item.count} TL</p>
+                                </div>
+                            ))}
+                            <div className='mt-4 flex justify-between items-center'>
+                                <p className='font-bold'>Toplam:</p>
+                                <p className='font-bold'>{totalPrice.toFixed(2)} TL</p>
+                            </div>
+                            <button className='mt-4 w-full bg-[#23A6F0] text-white py-2 rounded' onClick={() => history.push('/cart')}>
+                                Sepete Git
+                            </button>
+                            <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={() => history.push('/checkout')}>
+                                Siparişi Tamamla
+                            </button>
+                        </div>
+                    </div>
+                )}
 
             </div>
 
