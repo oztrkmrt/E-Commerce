@@ -47,7 +47,7 @@ const HeroCarousel = ({ autoSlide = false, autoSlideInterval = 3000 }) => {
                     We know how large objects will act, but things on a small scale.
                 </h4>
                 <button className="bg-[#2DC071] px-5 py-2 sm:px-7 sm:py-3 rounded mt-4 md:mt-10 text-white text-sm sm:text-base cursor-pointer"
-                    onClick={() => history.push("/shop")} >SHOP NOW</button>
+                    onClick={() => history.push("/")} >SHOP NOW</button>
             </div>
             <div className="absolute inset-0 flex items-center justify-between p-4">
                 <button onClick={prev} className="p-1 rounded-full text-white">
