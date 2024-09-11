@@ -25,7 +25,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="flex flex-col gap-10 items-center justify-center min-h-screen">
+        <div className="flex flex-col gap-10 items-center pt-40 min-h-screen">
             <h1 className="text-[#252B42] text-3xl">Login</h1>
             <div className="w-full max-w-md border border-gray p-8">
                 <form onSubmit={handleSubmit(onSubmit)}>

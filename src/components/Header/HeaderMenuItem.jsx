@@ -16,6 +16,7 @@ const HeaderMenuItem = () => {
     const history = useHistory();
     const location = useLocation();
     const dropdownRef = useRef(null);
+    const cartRef = useRef(null);
 
     const { user } = useSelector(state => state.client);
     const { categories } = useSelector(state => state.product);
@@ -39,6 +40,19 @@ const HeaderMenuItem = () => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (cartRef.current && !cartRef.current.contains(event.target)) {
+                setIsCartOpen(false);
             }
         };
 
@@ -120,7 +134,10 @@ const HeaderMenuItem = () => {
                 )}
                 <div className='flex gap-6 items-center'>
                     <FontAwesomeIcon href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0" }} />
-                    <div className='relative' onClick={() => setIsCartOpen(!isCartOpen)}>
+                    <div className='relative z-50 cursor-pointer' ref={cartRef} onClick={(e) => {
+                        e.stopPropagation();
+                        setIsCartOpen(!isCartOpen);
+                    }}>
                         <FontAwesomeIcon icon={faCartShopping} style={{ color: "#23A6F0" }} />
                         {totalItems > 0 && (
                             <span className='absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs'>
@@ -131,28 +148,28 @@ const HeaderMenuItem = () => {
                     <FontAwesomeIcon icon={faHeart} style={{ color: "#23A6F0" }} />
                 </div>
                 {isCartOpen && (
-                    <div className='absolute top-full right-0 mt-2 w-64 bg-white shadow-lg rounded-lg z-50'>
+                    <div className='absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg z-[1000]' style={{ top: cartRef.current ? cartRef.current.offsetHeight + 100 : 0, minWidth: '250px' }}>
                         <div className='p-4'>
-                            <h3 className='font-bold mb-2'>Sepetim ({totalItems} Ürün)</h3>
+                            <h3 className='font-bold mb-2'>My Cart ({totalItems} Product)</h3>
                             {cart.map((item) => (
                                 <div key={item.product.id} className='flex justify-between items-center mb-2'>
                                     <img src={item.product.images[0].url} alt={item.product.name} className='w-12 h-12 object-cover' />
                                     <div className='flex-1 ml-2'>
                                         <p className='text-sm'>{item.product.name}</p>
-                                        <p className='text-xs'>Adet: {item.count}</p>
+                                        <p className='text-xs'>Quantity: {item.count}</p>
                                     </div>
-                                    <p className='text-sm font-bold'>{item.product.price * item.count} TL</p>
+                                    <p className='text-sm font-bold'>{item.product.price * item.count} $</p>
                                 </div>
                             ))}
                             <div className='mt-4 flex justify-between items-center'>
-                                <p className='font-bold'>Toplam:</p>
-                                <p className='font-bold'>{totalPrice.toFixed(2)} TL</p>
+                                <p className='font-bold'>Total:</p>
+                                <p className='font-bold'>{totalPrice.toFixed(2)} $</p>
                             </div>
-                            <button className='mt-4 w-full bg-[#23A6F0] text-white py-2 rounded' onClick={() => history.push('/cart')}>
-                                Sepete Git
+                            <button className='mt-4 w-full bg-[#23A6F0] text-white py-2 rounded' onClick={(e) => { e.stopPropagation(); history.push('/cart'); }}>
+                                Go to Cart
                             </button>
-                            <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={() => history.push('/checkout')}>
-                                Siparişi Tamamla
+                            <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={(e) => { e.stopPropagation(); history.push('/checkout'); }}>
+                                Checkout
                             </button>
                         </div>
                     </div>

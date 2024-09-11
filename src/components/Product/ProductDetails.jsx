@@ -2,11 +2,24 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faCartShopping, faEye, faStar, faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "@/redux/slices/shoppingCartSlice";
 
 const ProductDetails = () => {
 
+    const dispatch = useDispatch();
+    const cart = useSelector(state => state.shoppingCart.cart);
+
     const { currentProduct, loading, error } = useSelector(state => state.product);
+
+    const handleAddToCart = () => {
+        const existingItem = cart.find(item => item.product.id === currentProduct.id);
+        if (existingItem) {
+            dispatch(addToCart({ product: currentProduct, count: existingItem.count + 1 }));
+        } else {
+            dispatch(addToCart({ product: currentProduct, count: 1 }));
+        }
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -42,7 +55,7 @@ const ProductDetails = () => {
                 <span className="border border-[#252B42] rounded-full bg-[#252B42] py-3 px-3"></span>
             </div>
             <div className="flex gap-8 items-center my-2">
-                <button className="border py-2 px-4 md:mr-20 rounded bg-[#23A6F0] text-[#FFFFFF] font-medium">Add To Cart</button>
+                <button onClick={handleAddToCart} className="border py-2 px-4 md:mr-20 rounded bg-[#23A6F0] text-[#FFFFFF] font-medium">Add To Cart</button>
                 <FontAwesomeIcon icon={faHeart} size="xl" />
                 <FontAwesomeIcon icon={faCartShopping} size="xl" />
                 <FontAwesomeIcon icon={faEye} size="xl" />
