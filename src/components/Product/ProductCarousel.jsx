@@ -12,8 +12,8 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, currentP
 
     const images = currentProduct.images;
 
-    const prev = () => setCurr(curr === 0 ? products.length - 1 : curr - 1);
-    const next = () => setCurr(curr === products.length - 1 ? 0 : curr + 1);
+    const prev = () => setCurr(curr === 0 ? images.length - 1 : curr - 1);
+    const next = () => setCurr(curr === images.length - 1 ? 0 : curr + 1);
 
     const handleClick = (index) => {
         setCurr(index);
@@ -26,8 +26,8 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, currentP
     }, [autoSlide, autoSlideInterval]);
 
     return (
-        <div className="flex flex-col gap-10 px-20 py-10">
-            <div className="relative overflow-hidden w-full h-[300px]">
+        <div className="flex flex-col gap-10 px-4 py-10 md:px-20">
+            <div className="relative overflow-hidden w-full h-[300px] md:h-[500px] lg:h-[600px]">
                 <div
                     className="flex transition-transform ease-out duration-500 h-full"
                     style={{ transform: `translateX(-${curr * 100}%)` }}
@@ -37,25 +37,30 @@ const ProductCarousel = ({ autoSlide = false, autoSlideInterval = 3000, currentP
                             <img
                                 src={product.url}
                                 alt={`product ${index + 1}`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain md:object-cover"
                             />
                         </div>
                     ))}
                 </div>
                 <div className="absolute inset-0 flex items-center justify-between p-4">
-                    <button onClick={prev} className="p-1 rounded-full text-white">
+                    <button onClick={prev} className="p-1 rounded-full text-gray-500">
                         <ChevronLeft size={40} />
                     </button>
-                    <button onClick={next} className="p-1 rounded-full text-white">
+                    <button onClick={next} className="p-1 rounded-full text-gray-500">
                         <ChevronRight size={40} />
                     </button>
                 </div>
             </div>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap justify-center gap-4 md:justify-start">
                 {images.map((image, index) => (
-                    <img key={index} className={`w-[100px] h-[75px] object-cover cursor-pointer ${index !== curr ? "opacity-50" : "opacity-100"
-                        }`} src={image.url} alt=""
-                        onClick={() => handleClick(index)} />
+                    <img
+                        key={index}
+                        className={`w-[80px] h-[60px] md:w-[120px] md:h-[90px] object-cover cursor-pointer ${index !== curr ? "opacity-50" : "opacity-100"
+                            }`}
+                        src={image.url}
+                        alt=""
+                        onClick={() => handleClick(index)}
+                    />
                 ))}
             </div>
         </div>

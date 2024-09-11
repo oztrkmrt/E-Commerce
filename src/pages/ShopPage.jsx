@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
-import ProductDetailPage from "./ProductDetailPage";
 
 const ShopPage = () => {
     const dispatch = useDispatch();
@@ -20,34 +19,29 @@ const ShopPage = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const limit = 25;
-    const isProductDetailPage = !!productId;
 
     useEffect(() => {
-        if (!isProductDetailPage) {
-            dispatch(getProducts({ categoryId }));
-        }
-    }, [dispatch, categoryId, isProductDetailPage]);
+        dispatch(getProducts({ categoryId }));
+    }, [dispatch, categoryId]);
 
     useEffect(() => {
-        if (!isProductDetailPage) {
-            const searchParams = new URLSearchParams(location.search);
-            const sortParam = searchParams.get('sort');
-            const filterParam = searchParams.get('filter');
-            const pageParam = searchParams.get('page');
+        const searchParams = new URLSearchParams(location.search);
+        const sortParam = searchParams.get('sort');
+        const filterParam = searchParams.get('filter');
+        const pageParam = searchParams.get('page');
 
-            if (sortParam) setSort(sortParam);
-            if (filterParam) setFilter(filterParam);
-            if (pageParam) setCurrentPage(parseInt(pageParam) - 1);
+        if (sortParam) setSort(sortParam);
+        if (filterParam) setFilter(filterParam);
+        if (pageParam) setCurrentPage(parseInt(pageParam) - 1);
 
-            const offset = currentPage * limit;
-            dispatch(getProducts({ categoryId, sort: sortParam || sort, filter: filterParam || filter, limit, offset }))
-                .then((action) => {
-                    if (action.payload && action.payload.total) {
-                        setTotalPages(Math.ceil(action.payload.total / limit));
-                    }
-                });
-        }
-    }, [dispatch, categoryId, location.search, currentPage, isProductDetailPage]);
+        const offset = currentPage * limit;
+        dispatch(getProducts({ categoryId, sort: sortParam || sort, filter: filterParam || filter, limit, offset }))
+            .then((action) => {
+                if (action.payload && action.payload.total) {
+                    setTotalPages(Math.ceil(action.payload.total / limit));
+                }
+            });
+    }, [dispatch, categoryId, location.search, currentPage]);
 
 
     const updateURL = (newSort, newFilter, newPage) => {
@@ -80,12 +74,6 @@ const ShopPage = () => {
         updateURL(sort, newFilter);
     };
 
-    if (productId) {
-        return <ProductDetailPage />;
-    }
-
-    console.log(gender, categoryName, categoryId);
-
     return (
         <div>
             <ShopTitle />
@@ -99,7 +87,6 @@ const ShopPage = () => {
             <ShopProductCards gender={gender || 'all'}
                 categoryName={categoryName || 'all-products'}
                 categoryId={categoryId || '0'} />
-            <ProductDetailPage />
             <ReactPaginate
                 previousLabel={"First"}
                 nextLabel={"Next"}

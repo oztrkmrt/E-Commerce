@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { slugify } from '@/Utils/helpers';
 
@@ -12,16 +12,12 @@ const truncateText = (text, maxLength) => {
 
 const ShopProductCards = ({ gender, categoryName, categoryId }) => {
     const history = useHistory();
-    const location = useLocation();
     const { productList } = useSelector(state => state.product);
 
     const handleProductClick = (product) => {
-        console.log('Clicked product:', product);
         const productNameSlug = slugify(product.name);
         const url = `/shop/${gender}/${categoryName}/${categoryId}/${productNameSlug}/${product.id}`;
-        console.log('Navigating to:', url);
-        console.log('Current location:', location.pathname);
-        history.push(url);
+        history.push(url, { product });
     };
 
     return (

@@ -3,6 +3,7 @@ import AboutUsPage from "@/pages/AboutUsPage";
 import ContactPage from "@/pages/ContactPage";
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
+import ProductDetailPage from "@/pages/ProductDetailPage";
 import ShopPage from "@/pages/ShopPage";
 import SignUpPage from "@/pages/SignUpPage";
 import TeamPage from "@/pages/TeamPage";
@@ -12,17 +13,17 @@ const PageContent = () => {
     return (
         <div>
             <Switch>
-                <Route path="/" exact> <HomePage /> </Route>
-                <Route path="/shop" exact> <ShopPage /> </Route>
-                <Route path="/shop/:gender/:categoryName/:categoryId"> <ShopPage /> </Route>
-                <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId"> <ShopPage /> </Route>
-                <Route path="/contact"> <ContactPage /> </Route>
-                <Route path="/team"> <TeamPage /> </Route>
-                <Route path="/about"> <AboutUsPage /> </Route>
-                <Route path="/signup"> <SignUpPage /> </Route>
-                <Route path="/login"> <LoginPage /> </Route>
+                <Route path="/" exact component={HomePage} />
+                <Route path="/shop" exact component={ShopPage} />
+                <Route path="/shop/:gender/:categoryName/:categoryId" exact component={ShopPage} />
+                <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetailPage} />
+                <Route path="/contact" component={ContactPage} />
+                <Route path="/team" component={TeamPage} />
+                <Route path="/about" component={AboutUsPage} />
+                <Route path="/signup" component={SignUpPage} />
+                <Route path="/login" component={LoginPage} />
             </Switch>
-        </div >
+        </div>
     );
 };
 
