@@ -16,7 +16,7 @@ const HeaderNavBar = () => {
     const totalPrice = cart.reduce((total, item) => total + (item.product.price * item.count), 0);
 
     return (
-        <div className='flex justify-between relative'>
+        <div className='flex justify-between relative pl-10'>
             <span className="font-bold text-2xl px-10 py-6 text-[#252B42] cursor-pointer" onClick={() => history.push("/")}>Brand</span>
             <div className='flex items-center px-8 py-6 justify-between cursor-pointer relative'>
                 <div className='flex items-center gap-4 md:hidden'>
@@ -50,7 +50,7 @@ const HeaderNavBar = () => {
                                 <p className='font-bold'>Total:</p>
                                 <p className='font-bold'>{totalPrice.toFixed(2)} $</p>
                             </div>
-                            <button className='mt-4 w-full bg-[#23A6F0] text-white py-2 rounded' onClick={() => history.push('/cart')}>
+                            <button className='mt-4 w-full bg-[#23A6F0] text-white py-2 rounded' onClick={() => history.push('/shopping-cart')}>
                                 Go to Cart
                             </button>
                             <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={() => history.push('/checkout')}>

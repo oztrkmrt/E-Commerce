@@ -62,6 +62,22 @@ const HeaderMenuItem = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const updateDropdownPosition = () => {
+            const cartIcon = document.getElementById('cartIcon');
+            const cartDropdown = document.getElementById('cartDropdown');
+            if (cartIcon && cartDropdown && isCartOpen) {
+                const rect = cartIcon.getBoundingClientRect();
+                cartDropdown.style.top = `${rect.bottom + window.scrollY}px`;
+                cartDropdown.style.right = `${window.innerWidth - rect.right}px`;
+            }
+        };
+
+        updateDropdownPosition();
+        window.addEventListener('resize', updateDropdownPosition);
+        return () => window.removeEventListener('resize', updateDropdownPosition);
+    }, [isCartOpen]);
+
     const handleCategoryClick = (gender, category) => {
         const genderText = gender === 'k' ? 'kadin' : 'erkek';
         history.push(`/shop/${genderText}/${category.title.toLowerCase()}/${category.id}`);
@@ -70,7 +86,7 @@ const HeaderMenuItem = () => {
 
     return (
 
-        <div className='flex flex-col justify-between items-center md:flex-row md:w-full'>
+        <div className='flex flex-col justify-between items-center md:flex-row md:w-full md:pr-20'>
             <div className='flex flex-col text-3xl pb-20 items-center md:flex-row md:py-0 md:gap-6 md:text-xl md:font-medium'>
                 <Link to={"/"} className="py-4 text-[#737373]">Home</Link>
                 <div className='flex items-center text-[#737373] cursor-pointer relative' ref={dropdownRef}>
@@ -134,10 +150,15 @@ const HeaderMenuItem = () => {
                 )}
                 <div className='flex gap-6 items-center'>
                     <FontAwesomeIcon href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0" }} />
-                    <div className='relative z-50 cursor-pointer' ref={cartRef} onClick={(e) => {
-                        e.stopPropagation();
-                        setIsCartOpen(!isCartOpen);
-                    }}>
+                    <div
+                        id="cartIcon"
+                        className='relative z-50 cursor-pointer'
+                        /* ref={cartRef} */
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsCartOpen(prev => !prev);
+                        }}
+                    >
                         <FontAwesomeIcon icon={faCartShopping} style={{ color: "#23A6F0" }} />
                         {totalItems > 0 && (
                             <span className='absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs'>
@@ -148,7 +169,11 @@ const HeaderMenuItem = () => {
                     <FontAwesomeIcon icon={faHeart} style={{ color: "#23A6F0" }} />
                 </div>
                 {isCartOpen && (
-                    <div className='absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg z-[1000]' style={{ top: cartRef.current ? cartRef.current.offsetHeight + 100 : 0, minWidth: '250px' }}>
+                    <div
+                        id="cartDropdown"
+                        className='fixed w-64 bg-white shadow-lg rounded-lg z-[1000]'
+                        style={{ minWidth: '250px' }}
+                    >
                         <div className='p-4'>
                             <h3 className='font-bold mb-2'>My Cart ({totalItems} Product)</h3>
                             {cart.map((item) => (
@@ -158,17 +183,25 @@ const HeaderMenuItem = () => {
                                         <p className='text-sm'>{item.product.name}</p>
                                         <p className='text-xs'>Quantity: {item.count}</p>
                                     </div>
-                                    <p className='text-sm font-bold'>{item.product.price * item.count} $</p>
+                                    <p className='text-sm font-bold'>{(item.product.price * 0.8).toFixed(2) * item.count} $</p>
                                 </div>
                             ))}
                             <div className='mt-4 flex justify-between items-center'>
                                 <p className='font-bold'>Total:</p>
-                                <p className='font-bold'>{totalPrice.toFixed(2)} $</p>
+                                <p className='font-bold'>{(totalPrice * 0.8).toFixed(2)} $</p>
                             </div>
-                            <button className='mt-4 w-full bg-[#23A6F0] text-white py-2 rounded' onClick={(e) => { e.stopPropagation(); history.push('/cart'); }}>
+                            <button
+                                className='mt-4 w-full bg-[#23A6F0] text-white py-2 rounded z-[9999]'
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    history.push('/shopping-cart');
+                                    setIsCartOpen(false);
+                                }}
+                            >
                                 Go to Cart
                             </button>
-                            <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={(e) => { e.stopPropagation(); history.push('/checkout'); }}>
+                            <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={() => history.push('/checkout')}>
                                 Checkout
                             </button>
                         </div>

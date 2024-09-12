@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <div>
             <HeaderSocial />
-            <div className="flex flex-col md:flex-row gap-20 px-10">
+            <div className="flex flex-col md:flex-row gap-20 md:gap-10">
                 <HeaderNavBar />
                 <HeaderMenuItem />
             </div>

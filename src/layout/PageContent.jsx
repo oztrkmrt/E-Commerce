@@ -5,6 +5,7 @@ import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
 import ProductDetailPage from "@/pages/ProductDetailPage";
 import ShopPage from "@/pages/ShopPage";
+import ShoppingCartPage from "@/pages/ShoppingCartPage";
 import SignUpPage from "@/pages/SignUpPage";
 import TeamPage from "@/pages/TeamPage";
 import { Route, Switch } from "react-router-dom";
@@ -17,6 +18,7 @@ const PageContent = () => {
                 <Route path="/shop" exact component={ShopPage} />
                 <Route path="/shop/:gender/:categoryName/:categoryId" exact component={ShopPage} />
                 <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetailPage} />
+                <Route path="/shopping-cart" component={ShoppingCartPage} />
                 <Route path="/contact" component={ContactPage} />
                 <Route path="/team" component={TeamPage} />
                 <Route path="/about" component={AboutUsPage} />

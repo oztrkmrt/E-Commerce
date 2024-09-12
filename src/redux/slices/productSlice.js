@@ -39,12 +39,10 @@ export const getProductDetail = createAsyncThunk(
     'product/getProductDetail',
     async (productId, { rejectWithValue }) => {
         try {
-            console.log('getProductDetail called with productId:', productId);
             if (!productId) {
                 throw new Error('Product ID is undefined');
             }
             const response = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`);
-            console.log('API response:', response.data);
 
             if (!response.data) {
                 throw new Error('No data received from API');
@@ -117,7 +115,6 @@ const productSlice = createSlice({
                 state.error = null;
             })
             .addCase(getProductDetail.fulfilled, (state, action) => {
-                console.log('Fulfilled action payload:', action.payload);
                 state.currentProduct = action.payload;
                 state.loading = false;
             })
