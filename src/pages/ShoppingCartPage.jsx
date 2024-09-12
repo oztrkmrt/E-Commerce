@@ -10,7 +10,12 @@ const ShoppingCartPage = () => {
     const totalPrice = cart.reduce((total, item) => total + item.product.price * item.count, 0);
 
     const handleQuantityChange = (item, newQuantity) => {
-        dispatch(updateItemCount({ productId: item.product.id, count: newQuantity }));
+        const updatedQuantity = Math.max(0, newQuantity);
+        if (updatedQuantity === 0) {
+            dispatch(removeFromCart(item.product.id));
+        } else {
+            dispatch(updateItemCount({ productId: item.product.id, count: updatedQuantity }));
+        }
     };
 
     const handleRemoveItem = (productId) => {
@@ -31,12 +36,12 @@ const ShoppingCartPage = () => {
                                 <div className="flex-grow">
                                     <h2 className="text-lg font-semibold">{item.product.name}</h2>
                                     <p className="text-gray-600">Size: 38</p>
-                                    <p className="text-gray-600">Price: ${item.product.price}</p>
+                                    <p className="text-gray-600">Price: ${item.product.price * 0.8}</p>
                                 </div>
                                 <div className="flex items-center">
-                                    <button onClick={() => handleQuantityChange(item, item.count - 1)} className="px-2 py-1 border">-</button>
+                                    <button onClick={() => handleQuantityChange(item, Math.max(0, item.count - 1))} className="px-3 py-1 border bg-gray-100">-</button>
                                     <span className="px-4">{item.count}</span>
-                                    <button onClick={() => handleQuantityChange(item, item.count + 1)} className="px-2 py-1 border">+</button>
+                                    <button onClick={() => handleQuantityChange(item, item.count + 1)} className="px-3 py-1 border bg-gray-100">+</button>
                                 </div>
                                 <p className="font-semibold ml-8">${(item.product.price * 0.8 * item.count).toFixed(2)}</p>
                                 <button onClick={() => handleRemoveItem(item.product.id)} className="ml-4 text-red-500">
