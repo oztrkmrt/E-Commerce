@@ -19,6 +19,7 @@ const PageContent = () => {
                 <Route path="/shop/:gender/:categoryName/:categoryId" exact component={ShopPage} />
                 <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetailPage} />
                 <Route path="/shopping-cart" component={ShoppingCartPage} />
+                <Route path="/order" component={CreateOrderPage} />
                 <Route path="/contact" component={ContactPage} />
                 <Route path="/team" component={TeamPage} />
                 <Route path="/about" component={AboutUsPage} />
