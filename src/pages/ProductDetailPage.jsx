@@ -19,14 +19,14 @@ const ProductDetailPage = () => {
     const { productList } = useSelector(state => state.product);
 
     useEffect(() => {
-        if (productId && !currentProduct) {
-            if (passedProduct) {
+        if (productId) {
+            if (passedProduct && passedProduct.id === productId) {
                 dispatch({ type: 'product/setCurrentProduct', payload: passedProduct });
             } else {
                 dispatch(getProductDetail(productId));
             }
         }
-    }, [dispatch, productId, currentProduct, passedProduct]);
+    }, [dispatch, productId, passedProduct]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
