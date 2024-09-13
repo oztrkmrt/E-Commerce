@@ -205,7 +205,7 @@ const HeaderMenuItem = () => {
                             >
                                 Go to Cart
                             </button>
-                            <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={() => history.push('/order')}>
+                            <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={() => history.push('/create-order')}>
                                 Complete Order
                             </button>
                         </div>

@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { removeFromCart, updateItemCount } from '@/redux/slices/shoppingCartSlice';
+import { useHistory } from 'react-router-dom';
 
 const ShoppingCartPage = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const { cart } = useSelector(state => state.shoppingCart);
     const totalPrice = cart.reduce((total, item) => total + item.product.price * item.count, 0);
 
@@ -70,7 +72,9 @@ const ShoppingCartPage = () => {
                                 <span>Total</span>
                                 <span>${(totalPrice * 0.8).toFixed(2)}</span>
                             </div>
-                            <button className="w-full bg-blue-500 text-white py-2 rounded mt-4">Complete Order</button>
+                            <button className="w-full bg-blue-500 text-white py-2 rounded mt-4"
+                                onClick={() => history.push('/create-order')}
+                            >Complete Order</button>
                             <div className="mt-4">
                                 <input type="text" placeholder="Enter discount code" className="w-full p-2 border rounded" />
                                 <button className="w-full bg-gray-300 text-gray-700 py-2 rounded mt-2">Apply Discount</button>

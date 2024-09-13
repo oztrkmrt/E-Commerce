@@ -9,6 +9,7 @@ import ShopPage from "@/pages/ShopPage";
 import ShoppingCartPage from "@/pages/ShoppingCartPage";
 import SignUpPage from "@/pages/SignUpPage";
 import TeamPage from "@/pages/TeamPage";
+import ProtectedRoute from "@/Utils/ProtectedRoute";
 import { Route, Switch } from "react-router-dom";
 
 const PageContent = () => {
@@ -20,7 +21,7 @@ const PageContent = () => {
                 <Route path="/shop/:gender/:categoryName/:categoryId" exact component={ShopPage} />
                 <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetailPage} />
                 <Route path="/shopping-cart" component={ShoppingCartPage} />
-                <Route path="/order" component={CreateOrderPage} />
+                <ProtectedRoute path="/create-order" component={CreateOrderPage} />
                 <Route path="/contact" component={ContactPage} />
                 <Route path="/team" component={TeamPage} />
                 <Route path="/about" component={AboutUsPage} />
