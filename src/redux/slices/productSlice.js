@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import axiosInstance from '@/services/axiosInstance';
 const initialState = {
     categories: [],
     productList: [],
@@ -13,13 +14,15 @@ const initialState = {
     loading: false,
     error: null,
 }
+
+
 export const getCategories = createAsyncThunk("category", async () => {
-    const { data } = await axios.get("https://workintech-fe-ecommerce.onrender.com/categories");
+    const { data } = await axiosInstance.get("/categories");
     return data;
 });
 
 export const getProducts = createAsyncThunk("product", async ({ categoryId, sort, filter, limit = 25, offset = 0 }) => {
-    let query = `https://workintech-fe-ecommerce.onrender.com/products?limit=${limit}&offset=${offset}`;
+    let query = `/products?limit=${limit}&offset=${offset}`;
 
     if (categoryId) {
         query += `&category=${categoryId}`;
@@ -31,7 +34,7 @@ export const getProducts = createAsyncThunk("product", async ({ categoryId, sort
         query += `&filter=${filter}`;
     }
 
-    const { data } = await axios.get(query);
+    const { data } = await axiosInstance.get(query);
     return data;
 });
 
@@ -42,7 +45,7 @@ export const getProductDetail = createAsyncThunk(
             if (!productId) {
                 throw new Error('Product ID is undefined');
             }
-            const response = await axios.get(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`);
+            const response = await axiosInstance.get(`/products/${productId}`);
 
             if (!response.data) {
                 throw new Error('No data received from API');

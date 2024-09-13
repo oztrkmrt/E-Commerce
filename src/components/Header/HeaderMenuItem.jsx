@@ -37,6 +37,10 @@ const HeaderMenuItem = () => {
     }, [location]);
 
     useEffect(() => {
+        setIsCartOpen(false);
+    }, [location]);
+
+    useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsOpen(false);
@@ -149,7 +153,7 @@ const HeaderMenuItem = () => {
                     </div>
                 )}
                 <div className='flex gap-6 items-center'>
-                    <FontAwesomeIcon href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0" }} />
+                    <FontAwesomeIcon className='cursor-pointer' href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0" }} />
                     <div
                         id="cartIcon"
                         className='relative z-50 cursor-pointer'
@@ -166,7 +170,7 @@ const HeaderMenuItem = () => {
                             </span>
                         )}
                     </div>
-                    <FontAwesomeIcon icon={faHeart} style={{ color: "#23A6F0" }} />
+                    <FontAwesomeIcon className='cursor-pointer' icon={faHeart} style={{ color: "#23A6F0" }} />
                 </div>
                 {isCartOpen && (
                     <div
@@ -201,8 +205,8 @@ const HeaderMenuItem = () => {
                             >
                                 Go to Cart
                             </button>
-                            <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={() => history.push('/checkout')}>
-                                Checkout
+                            <button className='mt-2 w-full bg-[#2DC071] text-white py-2 rounded' onClick={() => history.push('/order')}>
+                                Complete Order
                             </button>
                         </div>
                     </div>

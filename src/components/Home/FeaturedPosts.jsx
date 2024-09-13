@@ -48,15 +48,15 @@ const FeaturedPosts = () => {
                                 <div className='flex justify-between  md:text-sm'>
                                     <section className='flex items-center gap-2'>
                                         <FontAwesomeIcon icon={faCalendarDays} />
-                                        <p className="text-[#737373]">22 April 2021</p>
+                                        <p className="text-[#737373] cursor-pointer">22 April 2021</p>
                                     </section>
                                     <section className='flex items-center gap-2'>
                                         <FontAwesomeIcon icon={faComment} />
-                                        <p className="text-[#737373]">10 comments</p>
+                                        <p className="text-[#737373] cursor-pointer">10 comments</p>
                                     </section>
                                 </div>
                                 <div className='flex items-center'>
-                                    <h5 className="text-[#737373] text-lg font-medium text-center">Learn More</h5>
+                                    <h5 className="text-[#737373] text-lg font-medium text-center cursor-pointer">Learn More</h5>
                                     <button
                                         className="p-1 rounded-full text-[#23A6F0] "
                                     >

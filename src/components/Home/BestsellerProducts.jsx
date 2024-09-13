@@ -1,37 +1,63 @@
 
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { getProducts } from '@/redux/slices/productSlice';
+import { useHistory, useParams } from 'react-router-dom';
+import { slugify } from '@/Utils/helpers';
+
 const BestsellerProducts = () => {
 
-    const products = [
-        {
-            url: "/images/bestseller-product1.jpg",
-        },
-        {
-            url: "/images/bestseller-product2.jpg",
-        },
-        {
-            url: "/images/bestseller-product3.jpg",
-        },
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const { gender, categoryName, categoryId } = useParams();
 
-        {
-            url: "/images/bestseller-product4.jpg",
-        },
-    ];
+    const { productList } = useSelector(state => state.product);
 
-    const products2 = [
-        {
-            url: "/images/bestseller-product1.jpg",
-        },
-        {
-            url: "/images/bestseller-product2.jpg",
-        },
-        {
-            url: "/images/bestseller-product3.jpg",
-        },
+    const bestsellerProducts = [...productList]
+        .sort((a, b) => b.sell_count - a.sell_count)
+        .slice(0, 12);
 
-        {
-            url: "/images/bestseller-product4.jpg",
-        },
-    ];
+    useEffect(() => {
+        if (productList.length === 0) {
+            dispatch(getProducts({}));
+        }
+    }, [dispatch, productList]);
+
+    const handleProductClick = (product) => {
+        const productNameSlug = slugify(product.name);
+        const url = `/shop/${gender}/${categoryName}/${categoryId}/${productNameSlug}/${product.id}`;
+        history.push(url, { product });
+    };
+
+    const firstRow = bestsellerProducts.slice(0, 4);
+    const secondRow = bestsellerProducts.slice(4, 8);
+    const thirdRow = bestsellerProducts.slice(8, 12);
+
+    const renderProductRow = (products) => (
+        <div className="flex flex-col items-center justify-between gap-10 mt-14 mb-8 md:flex-row md:gap-2">
+            {products.map((product) => (
+                <div
+                    key={product.id}
+                    className="w-3/4 mb-6 md:w-1/6 cursor-pointer"
+                    onClick={() => handleProductClick(product)}
+                >
+                    <img src={product.images[0].url} alt={product.name} className="w-full h-[300px] object-cover md:w-full mx-auto" />
+                    <div className="flex flex-col text-center items-center px-10 mt-4 gap-4">
+                        <h5 className="text-[#252B42] font-bold">
+                            {product.name}
+                        </h5>
+                        <p className="text-[#737373]">
+                            {product.description.slice(0, 30)}...
+                        </p>
+                        <div className="flex gap-4 font-bold">
+                            <h5 className="text-[#BDBDBD] ">${product.price.toFixed(2)}</h5>
+                            <h5 className="text-[#23856D] ">${(product.price * 0.8).toFixed(2)}</h5>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
 
     return (
         <div className="md:px-20">
@@ -46,56 +72,9 @@ const BestsellerProducts = () => {
                     Problems trying to resolve the conflict between
                 </p>
             </div>
-            <div className="flex flex-col items-center justify-center gap-10 mt-14 mb-8 md:flex-row md:gap-2">
-                {products.map((product, index) => (
-                    <div className="w-3/4 mb-6 " key={index}>
-                        <img src={product.url} alt="" className="w-full object-cover md:w-2/4 mx-auto lg:w-3/4" />
-                        <div className="flex flex-col text-center items-center px-10 mt-4 gap-4">
-                            <h5 className="text-[#252B42] font-bold">
-                                Graphic Design
-                            </h5>
-                            <p className="text-[#737373]">
-                                English Department
-                            </p>
-                            <div className="flex gap-4 font-bold">
-                                <h5 className="text-[#BDBDBD] ">$ 16.48</h5>
-                                <h5 className="text-[#23856D] ">$ 6.48</h5>
-                            </div>
-                            <div className="flex gap-3 md:gap-2">
-                                <span className="border border-[#23A6F0] rounded-full bg-[#23A6F0] py-3 px-3"></span>
-                                <span className="border border-[#23856D] rounded-full bg-[#23856D] py-3 px-3"></span>
-                                <span className="border border-[#E77C40] rounded-full bg-[#E77C40] py-3 px-3"></span>
-                                <span className="border border-[#252B42] rounded-full bg-[#252B42] py-3 px-3"></span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div className="flex flex-col items-center justify-center gap-10 mt-14 mb-8 md:flex-row md:gap-2">
-                {products2.map((product, index) => (
-                    <div className="w-3/4 mb-6" key={index}>
-                        <img src={product.url} alt="" className="w-full object-cover md:w-2/4 mx-auto lg:w-3/4" />
-                        <div className="flex flex-col text-center items-center px-10 mt-4 gap-4">
-                            <h5 className="text-[#252B42] font-bold">
-                                Graphic Design
-                            </h5>
-                            <p className="text-[#737373]">
-                                English Department
-                            </p>
-                            <div className="flex gap-4 font-bold">
-                                <h5 className="text-[#BDBDBD] ">$ 16.48</h5>
-                                <h5 className="text-[#23856D] ">$ 6.48</h5>
-                            </div>
-                            <div className="flex gap-3 md:gap-2">
-                                <span className="border border-[#23A6F0] rounded-full bg-[#23A6F0] py-3 px-3"></span>
-                                <span className="border border-[#23856D] rounded-full bg-[#23856D] py-3 px-3"></span>
-                                <span className="border border-[#E77C40] rounded-full bg-[#E77C40] py-3 px-3"></span>
-                                <span className="border border-[#252B42] rounded-full bg-[#252B42] py-3 px-3"></span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            {renderProductRow(firstRow)}
+            {renderProductRow(secondRow)}
+            {renderProductRow(thirdRow)}
         </div>
     );
 };

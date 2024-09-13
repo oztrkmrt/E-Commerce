@@ -1,6 +1,7 @@
 
 import AboutUsPage from "@/pages/AboutUsPage";
 import ContactPage from "@/pages/ContactPage";
+import CreateOrderPage from "@/pages/CreateOrderPage";
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
 import ProductDetailPage from "@/pages/ProductDetailPage";
