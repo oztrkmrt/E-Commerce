@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { setRoles } from './clientSlice';
+import axiosInstance from '@/services/axiosInstance';
 
 export const fetchRolesThunk = createAsyncThunk(
     'client/fetchRoles',
@@ -11,7 +11,7 @@ export const fetchRolesThunk = createAsyncThunk(
         }
 
         try {
-            const response = await axios.get('https://workintech-fe-ecommerce.onrender.com/roles');
+            const response = await axiosInstance.get('/roles');
             dispatch(setRoles(response.data));
         } catch (error) {
             console.error('Error receiving role information:', error);

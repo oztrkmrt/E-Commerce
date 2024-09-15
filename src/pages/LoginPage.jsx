@@ -1,5 +1,5 @@
 import { loginUser } from '@/redux/thunk/authThunk';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -11,13 +11,22 @@ const LoginPage = () => {
     });
     const dispatch = useDispatch();
     const history = useHistory();
+    const [from, setFrom] = useState('/');
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const fromPath = searchParams.get('from');
+        if (fromPath) {
+            setFrom(fromPath);
+        }
+    }, [location]);
 
     const onSubmit = (data) => {
         const formData = { ...data, rememberMe };
-        console.log(formData);
         dispatch(loginUser(formData))
+            .unwrap()
             .then(() => {
-                history.goBack();
+                history.push(from);
             })
             .catch((err) => {
                 console.log(err);

@@ -27,7 +27,7 @@ const CreateOrderPage = () => {
     };
 
     return (
-        <div>
+        <div className='px-20 py-8'>
             <h1>Create Order</h1>
             {step === 1 ? (
                 <div>

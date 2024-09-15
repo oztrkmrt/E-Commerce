@@ -1,38 +1,37 @@
 import { toast } from "react-toastify";
 import { setUser } from "../slices/clientSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import axiosInstance from "@/services/axiosInstance";
 
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
     async ({ email, password, rememberMe }, { dispatch }) => {
-        return await axios
-            .post("https://workintech-fe-ecommerce.onrender.com/login", {
+        try {
+            const response = await axiosInstance.post("/login", {
                 email,
                 password,
-            })
-            .then((response) => {
-                const { token, name, email, role_id } = response.data;
-
-                const user = { name, email, role_id };
-
-                dispatch(setUser(user));
-
-                if (rememberMe) {
-                    localStorage.setItem("token", token);
-                    localStorage.setItem("user", JSON.stringify(user));
-                }
-
-                toast.success(`Welcome ${user.name}!`);
-                return { user, token };
-            })
-            .catch((error) => {
-                toast.warning("Login failed!");
-
-                return error;
             });
+
+            const { token, name, email: userEmail, role_id } = response.data;
+            const user = { name, email: userEmail, role_id };
+
+            dispatch(setUser(user));
+
+            localStorage.setItem("token", token);
+
+            if (rememberMe) {
+                localStorage.setItem("user", JSON.stringify(user));
+            } else {
+                sessionStorage.setItem("user", JSON.stringify(user));
+            }
+
+            toast.success(`Welcome ${user.name}!`);
+            return { user, token };
+        } catch (error) {
+            toast.warning("Login failed!");
+            throw error;
+        }
     }
 );
 
@@ -58,6 +57,17 @@ export const verifyToken = createAsyncThunk(
                 }
             }
         }
+    }
+);
+
+export const logoutUser = createAsyncThunk(
+    "auth/logoutUser",
+    async (_, { dispatch }) => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        delete axiosInstance.defaults.headers.common["Authorization"];
+        dispatch(setUser({})); // Kullanıcı state'ini temizle
+        toast.success("Logged out successfully!");
     }
 );
 

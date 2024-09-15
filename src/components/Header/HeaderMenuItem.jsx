@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { getCategories } from '@/redux/slices/productSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faCartShopping, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import GravatarImage from '@/gravatar/GravatarImage'
+import { logoutUser } from '@/redux/thunk/authThunk'
 
 const HeaderMenuItem = () => {
 
@@ -88,6 +89,11 @@ const HeaderMenuItem = () => {
         setIsOpen(false);
     };
 
+    const handleLogout = () => {
+        dispatch(logoutUser());
+        history.push('/');
+    };
+
     return (
 
         <div className='flex flex-col justify-between items-center md:flex-row md:w-full md:pr-20'>
@@ -153,7 +159,7 @@ const HeaderMenuItem = () => {
                     </div>
                 )}
                 <div className='flex gap-6 items-center'>
-                    <FontAwesomeIcon className='cursor-pointer' href='#' icon={faMagnifyingGlass} style={{ color: "#23A6F0" }} />
+                    <FontAwesomeIcon className='cursor-pointer' icon={faMagnifyingGlass} style={{ color: "#23A6F0" }} />
                     <div
                         id="cartIcon"
                         className='relative z-50 cursor-pointer'
@@ -171,6 +177,14 @@ const HeaderMenuItem = () => {
                         )}
                     </div>
                     <FontAwesomeIcon className='cursor-pointer' icon={faHeart} style={{ color: "#23A6F0" }} />
+                    {user && user.name && (
+                        <FontAwesomeIcon
+                            className='cursor-pointer'
+                            icon={faSignOutAlt}
+                            style={{ color: "#23A6F0" }}
+                            onClick={handleLogout}
+                        />
+                    )}
                 </div>
                 {isCartOpen && (
                     <div

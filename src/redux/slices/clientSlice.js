@@ -35,9 +35,14 @@ const clientSlice = createSlice({
         },
         setToken(state, action) {
             state.token = action.payload
+        },
+        setLogout(state) {
+            state.user = {};
+            state.token = null;
+            state.roles = [];
         }
     }
 })
 
-export const { setUser, setRoles, setTheme, setLanguage } = clientSlice.actions;
+export const { setUser, setRoles, setTheme, setLanguage, setLogout } = clientSlice.actions;
 export default clientSlice.reducer;
