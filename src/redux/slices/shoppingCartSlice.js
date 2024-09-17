@@ -7,24 +7,6 @@ const initialState = {
     address: {},
 }
 
-export const addNewAddress = createAsyncThunk(
-    'shoppingCart/addNewAddress',
-    async (addressData, { dispatch }) => {
-        const response = await axiosInstance.post('/user/address', addressData);
-        dispatch(setAddress(response.data));
-        return response.data;
-    }
-);
-
-export const updateExistingAddress = createAsyncThunk(
-    'shoppingCart/updateExistingAddress',
-    async (addressData, { dispatch }) => {
-        const response = await axiosInstance.put('/user/address', addressData);
-        dispatch(setAddress(response.data));
-        return response.data;
-    }
-);
-
 const shoppingCartSlice = createSlice({
     name: "shoppingCart",
     initialState,
@@ -64,13 +46,7 @@ const shoppingCartSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder
-            .addCase(addNewAddress.rejected, (state, action) => {
-                console.error('Adres eklenirken hata oluştu:', action.error);
-            })
-            .addCase(updateExistingAddress.rejected, (state, action) => {
-                console.error('Adres güncellenirken hata oluştu:', action.error);
-            });
+
     }
 
 })

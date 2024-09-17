@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { fetchAddresses, deleteAddress } from '@/redux/slices/clientSlice';
-import { setAddress, addNewAddress, updateExistingAddress } from '@/redux/slices/shoppingCartSlice';
+import { fetchAddresses, deleteAddress, addNewAddress, updateExistingAddress, setSelectedAddress } from '@/redux/slices/clientSlice';
 import { useHistory } from 'react-router-dom';
+import Modal from '@/Utils/Modal';
 
 const CreateOrderPage = () => {
     const [activeTab, setActiveTab] = useState('address');
@@ -11,8 +11,9 @@ const CreateOrderPage = () => {
     const { addressList } = useSelector(state => state.client);
     const dispatch = useDispatch();
     const history = useHistory();
-    const [showAddressForm, setShowAddressForm] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [cities, setCities] = useState([]);
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
     const totalPrice = cart.reduce((total, item) => total + item.product.price * item.count, 0);
 
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
@@ -25,8 +26,6 @@ const CreateOrderPage = () => {
         } else {
             history.push('/login');
         }
-
-        // Auth error kontrolü
         const authError = localStorage.getItem("authError");
         if (authError) {
             localStorage.removeItem("authError");
@@ -41,7 +40,7 @@ const CreateOrderPage = () => {
     const handleAddAddress = async (data) => {
         try {
             await dispatch(addNewAddress(data)).unwrap();
-            setShowAddressForm(false);
+            setShowModal(false);
             reset();
         } catch (error) {
             console.error('Adres eklenirken hata oluştu:', error);
@@ -54,7 +53,7 @@ const CreateOrderPage = () => {
     const handleUpdateAddress = async (data) => {
         try {
             await dispatch(updateExistingAddress(data)).unwrap();
-            setShowAddressForm(false);
+            setShowModal(false);
         } catch (error) {
             console.error('Adres güncellenirken hata oluştu:', error);
             if (error.response && error.response.status === 401) {
@@ -76,6 +75,11 @@ const CreateOrderPage = () => {
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
+    };
+
+    const handleSelectAddress = (addr) => {
+        setSelectedAddressId(addr.id);
+        dispatch(setSelectedAddress(addr));
     };
 
     return (
@@ -107,15 +111,15 @@ const CreateOrderPage = () => {
                                 <p>{addr.city}, {addr.district}, {addr.neighborhood}</p>
                                 <div className='mt-2'>
                                     <button
-                                        onClick={() => dispatch(setAddress(addr))}
-                                        className={`bg-green-500 text-white py-1 px-2 rounded mr-2 ${addr === address ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                        disabled={addr === address}
+                                        onClick={() => handleSelectAddress(addr)}
+                                        className={`bg-green-500 text-white py-1 px-2 rounded mr-2 ${addr.id === selectedAddressId ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        disabled={addr.id === selectedAddressId}
                                     >
-                                        {addr === address ? 'Selected' : 'Select'}
+                                        {addr.id === selectedAddressId ? 'Selected' : 'Select'}
                                     </button>
                                     <button
                                         onClick={() => {
-                                            setShowAddressForm(true);
+                                            setShowModal(true);
                                             setValue('id', addr.id);
                                             setValue('title', addr.title);
                                             setValue('name', addr.name);
@@ -130,7 +134,7 @@ const CreateOrderPage = () => {
                                         Update
                                     </button>
                                     <button
-                                        onClick={() => handleDeleteAddress(address.id)}
+                                        onClick={() => handleDeleteAddress(addr.id)}
                                         className='bg-red-500 text-white py-1 px-2 rounded'
                                     >
                                         Delete
@@ -140,12 +144,59 @@ const CreateOrderPage = () => {
                         ))}
                         <button
                             className='bg-blue-500 text-white py-2 px-4 rounded'
-                            onClick={() => setShowAddressForm(true)}
+                            onClick={() => setShowModal(true)}
                         >
                             Add New Address
                         </button>
+                        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                            <h2 className='text-2xl font-bold mb-4'>Add New Address</h2>
+                            <form onSubmit={handleSubmit(data => data.id ? handleUpdateAddress(data) : handleAddAddress(data))} className='mt-4'>
+                                <div className='mb-4'>
+                                    <label className='block mb-2'>Address Title</label>
+                                    <input {...register('title', { required: 'This field is required.' })} className='w-full border p-2' />
+                                    {errors.title && <span className='text-red-500'>{errors.title.message}</span>}
+                                </div>
+                                <div className='mb-4'>
+                                    <label className='block mb-2'>Name</label>
+                                    <input {...register('name', { required: 'This field is required.' })} className='w-full border p-2' />
+                                    {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
+                                </div>
+                                <div className='mb-4'>
+                                    <label className='block mb-2'>Surname</label>
+                                    <input {...register('surname', { required: 'This field is required.' })} className='w-full border p-2' />
+                                    {errors.surname && <span className='text-red-500'>{errors.surname.message}</span>}
+                                </div>
+                                <div className='mb-4'>
+                                    <label className='block mb-2'>Phone</label>
+                                    <input {...register('phone', { required: 'This field is required.' })} className='w-full border p-2' />
+                                    {errors.phone && <span className='text-red-500'>{errors.phone.message}</span>}
+                                </div>
+                                <div className='mb-4'>
+                                    <label className='block mb-2'>City</label>
+                                    <select {...register('city', { required: 'This field is required.' })} className='w-full border p-2'>
+                                        {cities.map((city, index) => (
+                                            <option key={index} value={city}>{city}</option>
+                                        ))}
+                                    </select>
+                                    {errors.city && <span className='text-red-500'>{errors.city.message}</span>}
+                                </div>
+                                <div className='mb-4'>
+                                    <label className='block mb-2'>District</label>
+                                    <input {...register('district', { required: 'This field is required.' })} className='w-full border p-2' />
+                                    {errors.district && <span className='text-red-500'>{errors.district.message}</span>}
+                                </div>
+                                <div className='mb-4'>
+                                    <label className='block mb-2'>Neighborhood</label>
+                                    <input {...register('neighborhood', { required: 'This field is required.' })} className='w-full border p-2' />
+                                    {errors.neighborhood && <span className='text-red-500'>{errors.neighborhood.message}</span>}
+                                </div>
+                                <button type='submit' className='bg-green-500 text-white py-2 px-4 rounded'>
+                                    Save Address
+                                </button>
+                            </form>
+                        </Modal>
 
-                        {showAddressForm && (
+                        {/* {showAddressForm && (
                             <form onSubmit={handleSubmit(data => data.id ? handleUpdateAddress(data) : handleAddAddress(data))} className='mt-4'>
                                 <div className='mb-4'>
                                     <label className='block mb-2'>Adres Başlığı</label>
@@ -190,7 +241,7 @@ const CreateOrderPage = () => {
                                     Save Address
                                 </button>
                             </form>
-                        )}
+                        )} */}
                     </div>
                     <div>
                         <div className="bg-gray-100 p-6 rounded-lg">

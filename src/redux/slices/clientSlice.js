@@ -9,6 +9,7 @@ const initialState = {
     theme: "",
     language: "",
     token: null,
+    selectedAddress: null
 }
 
 export const fetchAddresses = createAsyncThunk(
@@ -24,6 +25,22 @@ export const deleteAddress = createAsyncThunk(
     async (addressId) => {
         await axiosInstance.delete(`/user/address/${addressId}`);
         return addressId;
+    }
+);
+
+export const addNewAddress = createAsyncThunk(
+    'client/addNewAddress',
+    async (addressData) => {
+        const response = await axiosInstance.post('/user/address', addressData);
+        return response.data;
+    }
+);
+
+export const updateExistingAddress = createAsyncThunk(
+    'client/updateExistingAddress',
+    async (addressData) => {
+        const response = await axiosInstance.put('/user/address', addressData);
+        return response.data;
     }
 );
 
@@ -72,7 +89,10 @@ const clientSlice = createSlice({
             state.token = null;
             state.roles = [];
             state.addressList = [];
-        }
+        },
+        setSelectedAddress(state, action) {
+            state.selectedAddress = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -87,6 +107,21 @@ const clientSlice = createSlice({
             })
             .addCase(deleteAddress.rejected, (state, action) => {
                 console.error('Adres silinirken hata oluştu:', action.error);
+            })
+            .addCase(addNewAddress.fulfilled, (state, action) => {
+                state.addressList.push(action.payload);
+            })
+            .addCase(addNewAddress.rejected, (state, action) => {
+                console.error('Adres eklenirken hata oluştu:', action.error);
+            })
+            .addCase(updateExistingAddress.fulfilled, (state, action) => {
+                const index = state.addressList.findIndex(address => address.id === action.payload.id);
+                if (index !== -1) {
+                    state.addressList[index] = action.payload;
+                }
+            })
+            .addCase(updateExistingAddress.rejected, (state, action) => {
+                console.error('Adres güncellenirken hata oluştu:', action.error);
             });
     }
 })
@@ -101,6 +136,7 @@ export const {
     setTheme,
     setLanguage,
     setToken,
-    setLogout
+    setLogout,
+    setSelectedAddress
 } = clientSlice.actions;
 export default clientSlice.reducer;
