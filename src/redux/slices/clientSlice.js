@@ -44,6 +44,22 @@ export const updateExistingAddress = createAsyncThunk(
     }
 );
 
+export const addNewCard = createAsyncThunk(
+    'client/addNewCard',
+    async (cardData) => {
+        const response = await axiosInstance.post('/user/card', cardData);
+        return response.data;
+    }
+);
+
+export const fetchCards = createAsyncThunk(
+    'client/fetchCards',
+    async () => {
+        const response = await axiosInstance.get('/user/card');
+        return response.data;
+    }
+);
+
 const clientSlice = createSlice({
     name: "client",
     initialState,
@@ -122,6 +138,18 @@ const clientSlice = createSlice({
             })
             .addCase(updateExistingAddress.rejected, (state, action) => {
                 console.error('Adres güncellenirken hata oluştu:', action.error);
+            })
+            .addCase(addNewCard.fulfilled, (state, action) => {
+                state.creditCards.push(action.payload);
+            })
+            .addCase(addNewCard.rejected, (state, action) => {
+                console.error('Kart eklenirken hata oluştu:', action.error);
+            })
+            .addCase(fetchCards.fulfilled, (state, action) => {
+                state.creditCards = action.payload;
+            })
+            .addCase(fetchCards.rejected, (state, action) => {
+                console.error('Kartlar alınırken hata oluştu:', action.error);
             });
     }
 })
