@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +24,14 @@ const ShoppingCartPage = () => {
         dispatch(removeFromCart(productId));
     };
 
+    useEffect(() => {
+        const authError = localStorage.getItem("authError");
+        if (authError) {
+            localStorage.removeItem("authError");
+            history.push('/login');
+        }
+    }, [history]);
+
     return (
         <div className="container mx-auto px-20 py-8">
             <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
@@ -38,7 +46,7 @@ const ShoppingCartPage = () => {
                                 <div className="flex-grow">
                                     <h2 className="text-lg font-semibold">{item.product.name}</h2>
                                     <p className="text-gray-600">Size: 38</p>
-                                    <p className="text-gray-600">Price: ${item.product.price * 0.8}</p>
+                                    <p className="text-gray-600">Price: ${(item.product.price * 0.8).toFixed(2)}</p>
                                 </div>
                                 <div className="flex items-center">
                                     <button onClick={() => handleQuantityChange(item, Math.max(0, item.count - 1))} className="px-3 py-1 border bg-gray-100">-</button>

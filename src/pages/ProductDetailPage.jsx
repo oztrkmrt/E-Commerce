@@ -28,9 +28,9 @@ const ProductDetailPage = () => {
         }
     }, [dispatch, productId, passedProduct]);
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-    if (!currentProduct) return <div>No product found</div>;
+    if (loading) return <div className="p-20">Loading...</div>;
+    if (error) return <div className="p-20">Error: {error}</div>;
+    if (!currentProduct) return <div className="p-20">No product found</div>;
 
     return (
         <div>
